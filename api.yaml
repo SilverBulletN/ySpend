@@ -1,0 +1,1539 @@
+openapi: 3.0.0
+info:
+  title: ySpend API
+  version: 1.0.0
+  description: API for ySpend
+
+servers:
+  - url: /api/v1
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-API-KEY
+      in: header
+
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Beginning Flow
+    description: Endpoints for user registration and login
+  - name: Expense Flow
+    description: Endpoints for adding expense
+  - name: Home Page
+    description: Endpoints for homepage flow
+  - name: Community
+    description: Endpoints for community flow
+  - name: Statistics
+    description: Endpoints for statistics flow
+  - name: Profile
+    description: Endpoints for profile flow
+
+paths:
+  /users/register:
+    post:
+      tags:
+        - Beginning Flow
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: User's first name
+                last_name:
+                  type: string
+                  description: User's last name
+                email:
+                  type: string
+                  description: User's email address
+                  format: email
+                password:
+                  type: string
+                  description: User's password
+                  minLength: 8
+      responses:
+        '201':
+          description: User registration successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    description: User's unique ID
+                  first_name:
+                    type: string
+                    description: User's first name
+                  last_name:
+                    type: string
+                    description: User's last name
+                  email:
+                    type: string
+                    description: User's email address
+        '400':
+          description: Invalid registration request
+        '409':
+          description: User with this email already exists
+
+  /users/login:
+    post:
+      tags:
+        - Beginning Flow
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: User's email address
+                password:
+                  type: string
+                  description: User's password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token for authentication
+        '401':
+          description: Invalid login credentials
+
+  /users/{user_id}:
+    put:
+      tags:
+        - Beginning Flow
+      summary: Update user information
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: User's unique ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: User's first name (optional)
+                last_name:
+                  type: string
+                  description: User's last name (optional)
+                birthday:
+                  type: string
+                  description: User's birthday in YYYY-MM-DD format (optional)
+                avatar_url:
+                  type: string
+                  description: URL of user's avatar image (optional)
+                setting_bits:
+                  type: integer
+                  description: User settings (optional)
+      responses:
+        '200':
+          description: User information updated successfully
+        '400':
+          description: Invalid update request
+        '401':
+          description: Unauthorized access
+        '404':
+          description: User not found
+
+  /receipt:
+    post:
+      tags:
+        - Expense Flow
+      summary: Add a new receipt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  description: Content of the receipt
+                category:
+                  type: string
+                  description: Category of the receipt
+                amount:
+                  type: string
+                  description: Amount spent
+                date:
+                  type: string
+                  description: Date of the receipt
+                invoice:
+                  type: string
+                  description: Invoice for the receipt
+      responses:
+        '201':
+          description: Receipt added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  receipt_id:
+                    type: integer
+                    description: Receipt's unique ID
+                  content:
+                    type: string
+                    description: Content of the receipt
+                  category:
+                    type: string
+                    description: Category of the receipt
+                  amount:
+                    type: string
+                    description: Amount spent
+                  date:
+                    type: string
+                    description: Date of the receipt
+                  invoice:
+                    type: string
+                    description: Invoice for the receipt
+        '400':
+          description: Invalid request
+  
+  /home/balance:
+    get:
+      tags:
+        - Home Page
+      summary: Get user balance
+      responses:
+        '200':
+          description: User balance retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: number
+                    description: User's current balance
+
+  /home/transactions:
+    get:
+      tags:
+        - Home Page
+      summary: Get recent transactions
+      responses:
+        '200':
+          description: Recent transactions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        recipe_id:
+                          type: integer
+                          description: Transaction ID
+                        recipe_name:
+                          type: string
+                          description: Transaction description
+                        date:
+                          type: string
+                          format: date
+                          description: Transaction date
+                        amount:
+                          type: integer
+                          description: Transaction amount
+                        status:
+                          type: string
+                          description: Transaction status
+
+  /home/income:
+    get:
+      tags:
+        - Home Page
+      summary: Get total income
+      responses:
+        '200':
+          description: Total income retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  income:
+                    type: number
+                    description: User's total income
+
+  /home/expenses:
+    get:
+      tags:
+        - Home Page
+      summary: Get total expenses
+      responses:
+        '200':
+          description: Total expenses retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expenses:
+                    type: number
+                    description: User's total expenses
+
+  /home/spending-progress:
+    get:
+      tags:
+        - Home Page
+      summary: Get spending progress
+      responses:
+        '200':
+          description: Spending progress retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                          description: Spending category
+                        spent:
+                          type: number
+                          description: Amount spent
+                        budget:
+                          type: number
+                          description: Budget for the category
+
+  /home/notifications:
+    get:
+      tags:
+        - Home Page
+      summary: Get notifications
+      responses:
+        '200':
+          description: Notifications retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        noti_id:
+                          type: integer
+                          description: Notification ID
+                        type:
+                          type: string
+                          description: Notification type
+                        target_id:
+                          type: integer
+                          description: Target ID
+                        title:
+                          type: string
+                          description: Notification title
+                        content:
+                          type: string
+                          description: Notification content
+                        time:
+                          type: string
+                          format: date-time
+                          description: Notification time
+
+  /posts:
+    get:
+      tags:
+        - Community
+      summary: Get all posts
+      responses:
+        '200':
+          description: Posts retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        post_id:
+                          type: integer
+                          description: Post ID
+                        author_id:
+                          type: integer
+                          description: Author ID
+                        publish_date:
+                          type: string
+                          format: date-time
+                          description: Publish date of the post
+                        total_likes:
+                          type: integer
+                          description: Total number of likes
+                        total_cmts:
+                          type: integer
+                          description: Total number of comments
+                        content:
+                          type: string
+                          description: Content of the post
+                        author_name:
+                          type: string
+                          description: Author's name
+                        author_avatar:
+                          type: string
+                          description: URL of the author's avatar image
+    post:
+      tags:
+        - Community
+      summary: Create a new post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                author_id:
+                  type: integer
+                  description: Author ID
+                content:
+                  type: string
+                  description: Content of the post
+      responses:
+        '201':
+          description: Post created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  post_id:
+                    type: integer
+                    description: Post ID
+                  author_id:
+                    type: integer
+                    description: Author ID
+                  publish_date:
+                    type: string
+                    format: date-time
+                    description: Publish date of the post
+                  total_likes:
+                    type: integer
+                    description: Total number of likes
+                  total_cmts:
+                    type: integer
+                    description: Total number of comments
+                  content:
+                    type: string
+                    description: Content of the post
+        '400':
+          description: Invalid request
+
+  /posts/{post_id}:
+    get:
+      tags:
+        - Community
+      summary: Get a specific post
+      parameters:
+        - in: path
+          name: post_id
+          required: true
+          schema:
+            type: integer
+            description: Post ID
+      responses:
+        '200':
+          description: Post retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  post_id:
+                    type: integer
+                    description: Post ID
+                  author_id:
+                    type: integer
+                    description: Author ID
+                  publish_date:
+                    type: string
+                    format: date-time
+                    description: Publish date of the post
+                  total_likes:
+                    type: integer
+                    description: Total number of likes
+                  total_cmts:
+                    type: integer
+                    description: Total number of comments
+                  content:
+                    type: string
+                    description: Content of the post
+        '404':
+          description: Post not found
+
+  /posts/{post_id}/like:
+    post:
+      tags:
+        - Community
+      summary: Like a post
+      parameters:
+        - in: path
+          name: post_id
+          required: true
+          schema:
+            type: integer
+            description: Post ID
+      responses:
+        '200':
+          description: Post liked successfully
+        '404':
+          description: Post not found
+
+  /posts/{post_id}/comment:
+    post:
+      tags:
+        - Community
+      summary: Comment on a post
+      parameters:
+        - in: path
+          name: post_id
+          required: true
+          schema:
+            type: integer
+            description: Post ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: User ID
+                comment:
+                  type: string
+                  description: Comment text
+      responses:
+        '201':
+          description: Comment added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  post_id:
+                    type: integer
+                    description: Post ID
+                  user_id:
+                    type: integer
+                    description: User ID
+                  cmt_date:
+                    type: string
+                    format: date-time
+                    description: Comment date
+                  comment:
+                    type: string
+                    description: Comment text
+        '400':
+          description: Invalid request
+        '404':
+          description: Post not found
+
+  /posts/{post_id}/comments:
+    get:
+      tags:
+        - Community
+      summary: Get comments for a post
+      parameters:
+        - in: path
+          name: post_id
+          required: true
+          schema:
+            type: integer
+            description: Post ID
+      responses:
+        '200':
+          description: Comments retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        post_id:
+                          type: integer
+                          description: Post ID
+                        user_id:
+                          type: integer
+                          description: User ID
+                        cmt_date:
+                          type: string
+                          format: date-time
+                          description: Comment date
+                        comment:
+                          type: string
+                          description: Comment text
+        '404':
+          description: Post not found
+
+  /profile/{user_id}:
+    get:
+      tags:
+        - Community
+      summary: Get user profile
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: User ID
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    description: User ID
+                  first_name:
+                    type: string
+                    description: User's first name
+                  last_name:
+                    type: string
+                    description: User's last name
+                  email:
+                    type: string
+                    description: User's email address
+                  avatar_url:
+                    type: string
+                    description: URL of user's avatar
+                  follower_count:
+                    type: integer
+                    description: Number of followers
+                  following_count:
+                    type: integer
+                    description: Number of users followed
+                  post_count:
+                    type: integer
+                    description: Number of posts
+        '404':
+          description: User not found
+
+  /profile/{user_id}/posts:
+    get:
+      tags:
+        - Community
+      summary: Get posts by a user
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: User ID
+      responses:
+        '200':
+          description: Posts retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        post_id:
+                          type: integer
+                          description: Post ID
+                        author_id:
+                          type: integer
+                          description: Author ID
+                        publish_date:
+                          type: string
+                          format: date-time
+                          description: Publish date of the post
+                        total_likes:
+                          type: integer
+                          description: Total number of likes
+                        total_cmts:
+                          type: integer
+                          description: Total number of comments
+                        content:
+                          type: string
+                          description: Content of the post
+        '404':
+          description: User not found or no posts found
+          
+  /statistics/overview:
+    get:
+      tags:
+        - Statistics
+      summary: Get spending overview
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: string
+            enum: [week, month, year]
+            description: The period for which to retrieve the overview
+          required: true
+      responses:
+        '200':
+          description: Overview retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_spending:
+                    type: number
+                    description: Total spending amount
+                  categories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                          description: Category name
+                        amount:
+                          type: number
+                          description: Amount spent in this category
+                        percentage:
+                          type: number
+                          description: Percentage of total spending
+                  trend:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                          description: Date of the spending
+                        amount:
+                          type: number
+                          description: Amount spent
+
+  /statistics/details:
+    get:
+      tags:
+        - Statistics
+      summary: Get detailed spending statistics
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: string
+            enum: [week, month, year]
+            description: The period for which to retrieve the details
+          required: true
+        - in: query
+          name: category_id
+          schema:
+            type: integer
+            description: The category ID to filter the details
+          required: false
+      responses:
+        '200':
+          description: Detailed statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_spending:
+                    type: number
+                    description: Total spending amount
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        item_name:
+                          type: string
+                          description: Name of the item
+                        amount:
+                          type: number
+                          description: Amount spent on the item
+                        date:
+                          type: string
+                          format: date
+                          description: Date of the transaction
+
+  /statistics/progress:
+    get:
+      tags:
+        - Statistics
+      summary: Get spending progress
+      responses:
+        '200':
+          description: Spending progress retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  progress:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                          description: Spending category
+                        spent:
+                          type: number
+                          description: Amount spent
+                        budget:
+                          type: number
+                          description: Budget for the category
+                        remaining:
+                          type: number
+                          description: Remaining budget
+
+  /statistics/history:
+    get:
+      tags:
+        - Statistics
+      summary: Get spending history
+      parameters:
+        - in: query
+          name: start_date
+          schema:
+            type: string
+            format: date
+            description: Start date for the history period
+          required: true
+        - in: query
+          name: end_date
+          schema:
+            type: string
+            format: date
+            description: End date for the history period
+          required: true
+      responses:
+        '200':
+          description: Spending history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  history:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                          description: Date of the transaction
+                        amount:
+                          type: number
+                          description: Amount spent
+                        category:
+                          type: string
+                          description: Spending category
+
+  /statistics/top-expenses:
+    get:
+      tags:
+        - Statistics
+      summary: Get top expenses
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: string
+            enum: [week, month, year]
+            description: The period for which to retrieve the top expenses
+          required: true
+      responses:
+        '200':
+          description: Top expenses retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  top_expenses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        item_name:
+                          type: string
+                          description: Name of the item
+                        amount:
+                          type: number
+                          description: Amount spent on the item
+                        date:
+                          type: string
+                          format: date
+                          description: Date of the transaction
+                          
+  /plans:
+    get:
+      tags:
+        - Statistics
+      summary: Get all plans
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: string
+            enum: [week, month, year]
+            description: The period for which to retrieve the plans
+          required: true
+      responses:
+        '200':
+          description: Plans retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  plans:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Plan ID
+                        owner_id:
+                          type: integer
+                          description: Owner ID
+                        type:
+                          type: string
+                          description: Plan type (e.g., expense, income)
+                        week:
+                          type: integer
+                          description: Week number of the plan
+                        month:
+                          type: integer
+                          description: Month of the plan
+                        year:
+                          type: integer
+                          description: Year of the plan
+                        limit_amount:
+                          type: number
+                          description: Limit amount for the plan
+                        color_hex:
+                          type: string
+                          description: Color code for the plan
+                        category_id:
+                          type: integer
+                          description: Category ID
+                        spent_amount:
+                          type: number
+                          description: Amount spent
+    post:
+      tags:
+        - Statistics
+      summary: Create a new plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner_id:
+                  type: integer
+                  description: Owner ID
+                type:
+                  type: string
+                  description: Plan type (e.g., expense, income)
+                week:
+                  type: integer
+                  description: Week number of the plan (optional)
+                month:
+                  type: integer
+                  description: Month of the plan (optional)
+                year:
+                  type: integer
+                  description: Year of the plan (required)
+                limit_amount:
+                  type: number
+                  description: Limit amount for the plan
+                color_hex:
+                  type: string
+                  description: Color code for the plan
+                category_id:
+                  type: integer
+                  description: Category ID
+      responses:
+        '201':
+          description: Plan created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Plan ID
+                  owner_id:
+                    type: integer
+                    description: Owner ID
+                  type:
+                    type: string
+                    description: Plan type
+                  week:
+                    type: integer
+                    description: Week number of the plan
+                  month:
+                    type: integer
+                    description: Month of the plan
+                  year:
+                    type: integer
+                    description: Year of the plan
+                  limit_amount:
+                    type: number
+                    description: Limit amount for the plan
+                  color_hex:
+                    type: string
+                    description: Color code for the plan
+                  category_id:
+                    type: integer
+                    description: Category ID
+                  spent_amount:
+                    type: number
+                    description: Amount spent
+        '400':
+          description: Invalid request
+
+  /plans/{plan_id}:
+    get:
+      tags:
+        - Statistics
+      summary: Get details of a specific plan
+      parameters:
+        - in: path
+          name: plan_id
+          required: true
+          schema:
+            type: integer
+            description: Plan ID
+      responses:
+        '200':
+          description: Plan details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Plan ID
+                  owner_id:
+                    type: integer
+                    description: Owner ID
+                  type:
+                    type: string
+                    description: Plan type
+                  week:
+                    type: integer
+                    description: Week number of the plan
+                  month:
+                    type: integer
+                    description: Month of the plan
+                  year:
+                    type: integer
+                    description: Year of the plan
+                  limit_amount:
+                    type: number
+                    description: Limit amount for the plan
+                  color_hex:
+                    type: string
+                    description: Color code for the plan
+                  category_id:
+                    type: integer
+                    description: Category ID
+                  spent_amount:
+                    type: number
+                    description: Amount spent
+        '404':
+          description: Plan not found
+
+    put:
+      tags:
+        - Statistics
+      summary: Update a specific plan
+      parameters:
+        - in: path
+          name: plan_id
+          required: true
+          schema:
+            type: integer
+            description: Plan ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner_id:
+                  type: integer
+                  description: Owner ID (optional)
+                type:
+                  type: string
+                  description: Plan type (optional)
+                week:
+                  type: integer
+                  description: Week number of the plan (optional)
+                month:
+                  type: integer
+                  description: Month of the plan (optional)
+                year:
+                  type: integer
+                  description: Year of the plan (optional)
+                limit_amount:
+                  type: number
+                  description: Limit amount for the plan (optional)
+                color_hex:
+                  type: string
+                  description: Color code for the plan (optional)
+                category_id:
+                  type: integer
+                  description: Category ID (optional)
+                spent_amount:
+                  type: number
+                  description: Amount spent (optional)
+      responses:
+        '200':
+          description: Plan updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Plan ID
+                  owner_id:
+                    type: integer
+                    description: Owner ID
+                  type:
+                    type: string
+                    description: Plan type
+                  week:
+                    type: integer
+                    description: Week number of the plan
+                  month:
+                    type: integer
+                    description: Month of the plan
+                  year:
+                    type: integer
+                    description: Year of the plan
+                  limit_amount:
+                    type: number
+                    description: Limit amount for the plan
+                  color_hex:
+                    type: string
+                    description: Color code for the plan
+                  category_id:
+                    type: integer
+                    description: Category ID
+                  spent_amount:
+                    type: number
+                    description: Amount spent
+        '400':
+          description: Invalid request
+        '404':
+          description: Plan not found
+
+    delete:
+      tags:
+        - Statistics
+      summary: Delete a specific plan
+      parameters:
+        - in: path
+          name: plan_id
+          required: true
+          schema:
+            type: integer
+            description: Plan ID
+      responses:
+        '204':
+          description: Plan deleted successfully
+        '404':
+          description: Plan not found
+          
+  /profile/{user_id}/achievements:
+    get:
+      tags:
+        - Profile
+      summary: Get user achievements
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: User ID
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [all, earned]
+            description: Filter achievements by status
+          required: false
+      responses:
+        '200':
+          description: Achievements retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  achievements:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        arch_id:
+                          type: integer
+                          description: Achievement ID
+                        title:
+                          type: string
+                          description: Achievement title
+                        image_url:
+                          type: string
+                          description: URL of the achievement image
+                        condition:
+                          type: string
+                          description: Condition to earn the achievement
+                        description:
+                          type: string
+                          description: Description of the achievement
+                        earned_date:
+                          type: string
+                          format: date
+                          description: Date the achievement was earned
+
+  /achievements:
+    get:
+      tags:
+        - Profile
+      summary: Get all achievements
+      responses:
+        '200':
+          description: All achievements retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  achievements:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        arch_id:
+                          type: integer
+                          description: Achievement ID
+                        title:
+                          type: string
+                          description: Achievement title
+                        image_url:
+                          type: string
+                          description: URL of the achievement image
+                        condition:
+                          type: string
+                          description: Condition to earn the achievement
+                        description:
+                          type: string
+                          description: Description of the achievement
+
+  /profile/{user_id}/achievements/{arch_id}:
+    post:
+      tags:
+        - Profile
+      summary: Mark achievement as earned
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: User ID
+        - in: path
+          name: arch_id
+          required: true
+          schema:
+            type: integer
+            description: Achievement ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                timestamp:
+                  type: string
+                  format: date
+                  description: Date the achievement was earned
+      responses:
+        '201':
+          description: Achievement marked as earned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    description: User ID
+                  arch_id:
+                    type: integer
+                    description: Achievement ID
+                  timestamp:
+                    type: string
+                    format: date
+                    description: Date the achievement was earned
+        '400':
+          description: Invalid request
+  
+  /profile/{user_id}/wallets:
+    get:
+      tags:
+        - Profile
+      summary: Get user's linked wallets
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: User ID
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [bank, ewallet]
+            description: Filter by wallet type (bank or ewallet)
+          required: false
+      responses:
+        '200':
+          description: Wallets retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wallets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Wallet ID
+                        type:
+                          type: string
+                          description: Wallet type (bank or ewallet)
+                        issuer:
+                          type: string
+                          description: Issuer name
+                        card_number:
+                          type: string
+                          description: Card number (for bank type)
+                        phone_num:
+                          type: string
+                          description: Phone number (for ewallet type)
+                        expire_date:
+                          type: string
+                          format: date
+                          description: Expiry date (for bank type)
+                        name:
+                          type: string
+                          description: Name on the card or wallet
+
+    post:
+      tags:
+        - Profile
+      summary: Add a new wallet
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: User ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: Wallet type (bank or ewallet)
+                  enum: [bank, ewallet]
+                issuer:
+                  type: string
+                  description: Issuer name
+                card_number:
+                  type: string
+                  description: Card number (for bank type, optional)
+                phone_num:
+                  type: string
+                  description: Phone number (for ewallet type, optional)
+                expire_date:
+                  type: string
+                  format: date
+                  description: Expiry date (for bank type, optional)
+                name:
+                  type: string
+                  description: Name on the card or wallet
+      responses:
+        '201':
+          description: Wallet added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Wallet ID
+                  type:
+                    type: string
+                    description: Wallet type (bank or ewallet)
+                  issuer:
+                    type: string
+                    description: Issuer name
+                  card_number:
+                    type: string
+                    description: Card number (for bank type)
+                  phone_num:
+                    type: string
+                    description: Phone number (for ewallet type)
+                  expire_date:
+                    type: string
+                    format: date
+                    description: Expiry date (for bank type)
+                  name:
+                    type: string
+                    description: Name on the card or wallet
+        '400':
+          description: Invalid request
+
+  /profile/{user_id}/wallets/{wallet_id}:
+    delete:
+      tags:
+        - Profile
+      summary: Remove a linked wallet
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: User ID
+        - in: path
+          name: wallet_id
+          required: true
+          schema:
+            type: integer
+            description: Wallet ID
+      responses:
+        '204':
+          description: Wallet removed successfully
+        '404':
+          description: Wallet not found
+
+    get:
+      tags:
+        - Profile
+      summary: Get details of a specific wallet
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+            description: User ID
+        - in: path
+          name: wallet_id
+          required: true
+          schema:
+            type: integer
+            description: Wallet ID
+      responses:
+        '200':
+          description: Wallet details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Wallet ID
+                  type:
+                    type: string
+                    description: Wallet type (bank or ewallet)
+                  issuer:
+                    type: string
+                    description: Issuer name
+                  card_number:
+                    type: string
+                    description: Card number (for bank type)
+                  phone_num:
+                    type: string
+                    description: Phone number (for ewallet type)
+                  expire_date:
+                    type: string
+                    format: date
+                    description: Expiry date (for bank type)
+                  name:
+                    type: string
+                    description: Name on the card or wallet
+        '404':
+          description: Wallet not found
