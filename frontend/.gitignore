@@ -1,32 +1,35 @@
-# Dependencies
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
 node_modules/
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
+# Expo
+.expo/
+dist/
+web-build/
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
 
-# Mobile artifacts
-ios/build/
-android/build/
-android/.gradle/
+# Metro
+.metro-health-check*
 
-# Misc
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
 .DS_Store
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
