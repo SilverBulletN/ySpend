@@ -1,0 +1,10 @@
+version: '3.1'
+services:
+  db:
+    build: ./database
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      - ./database/backup:/backup
+      - ./database/dataset:/dataset
+    ports:
+      - 5432:5432

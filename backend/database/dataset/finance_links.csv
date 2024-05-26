@@ -1,0 +1,6 @@
+id,owner_id,type,phone_num,issuer,card_number,expire_date,name
+1,1,"Credit Card","","Visa","6219 8610 2888 8075","2022-01-01","MINH NGUYEN TUAN"
+2,1,"Debit Card","","Visa","6219 8610 2888 8075","2024-11-30","BINANCE TEAM"
+3,1,"E-wallet","0123456789","Ví Momo","",,"MINH NGUYEN TUAN"
+4,1,"E-wallet","0123456789","Zalo Pay","",,"MINH NGUYEN TUAN"
+5,1,"E-wallet","0123456789","VNPay","",,"MINH NGUYEN TUAN"

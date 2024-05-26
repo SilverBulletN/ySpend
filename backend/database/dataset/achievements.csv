@@ -1,0 +1,5 @@
+arch_id,title,image_url,condition,description
+1,"Vua ăn sáng","https://placehold.co/400",100000,"Chi tiêu 100.000đ cho bữa sáng trong một tuần"
+2,"Vua ăn mày","https://placehold.co/400",10000,"Chi tiêu 10.000đ cho bữa sáng trong một tuần"
+3,"Người tối cổ","https://placehold.co/400",0,"Chi tiêu 0đ cho giải trí trong một tuần"
+4,"Không biết xài tiền","https://placehold.co/400",3000000,"Tổng chi tiêu 3.000.000đ trong một tháng"

@@ -1,0 +1,7 @@
+id,owner_id,type,week,month,year,limit_amount,color_hex,category_id
+1,1,"Weekly",1,,,1250000,"FF5733",1
+2,1,"Monthly",,2,,1250000,"33FF57",2
+3,1,"Monthly",,2,,1250000,"33FF57",3
+4,1,"Yearly",,,2024,1250000,"3357FF",7
+5,1,"Weekly",2,,,1250000,"FF5733",3
+6,2,"Monthly",,3,,1250000,"57FF33",2

@@ -1,0 +1,6 @@
+user_id,first_name,last_name,email,password_hash,birthday,avatar_url,setting_bits
+1,"Minh","Nguyen Tuan","minh.nguyentuan@example.com","$1$N.K3f0GI$Dwe78Zorm5./5GQU9SeUG1","1990-01-01","https://i.pravatar.cc/150?img=1",15
+2,"Jane","Smith","jane.smith@example.com","$1$N.K3f0GI$Dwe78Zorm5./5GQU9SeUG1","1985-05-15","https://i.pravatar.cc/150?img=2",10
+3,"Michael","Brown","michael.brown@example.com","$1$N.K3f0GI$Dwe78Zorm5./5GQU9SeUG1","1992-07-21","https://i.pravatar.cc/150?img=3",20
+4,"Emily","Davis","emily.davis@example.com","$1$N.K3f0GI$Dwe78Zorm5./5GQU9SeUG1","1988-12-11","https://i.pravatar.cc/150?img=4",5
+5,"David","Wilson","david.wilson@example.com","$1$N.K3f0GI$Dwe78Zorm5./5GQU9SeUG1","1995-03-30","https://i.pravatar.cc/150?img=5",8

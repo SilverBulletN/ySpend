@@ -1,0 +1,10 @@
+noti_id,type,target_id,title,image_url,content,time
+1,"Broadcast",,"Thông báo bảo trì","","Hệ thống sẽ bảo trì vào tuần tới (chưa biết ngày nào).","2024-05-26 10:00:00"
+2,"Target",1,"Thanh toán thành công","","Hóa đơn tiền điện tháng 4/2024 đã được thanh toán","2024-05-25 09:00:00"
+3,"Target",1,"Hóa đơn sắp tới","","Sắp đến lúc thanh toán hóa đơn tiền điện nước tháng 5/2024","2024-05-25 09:00:00"
+4,"Target","1","Thanh toán thành công","","Thanh toán Netflix tháng 4/2024","2024-05-22 06:00:00"
+5,"Target","1","Mở khóa thành tựu","","Chúc mừng bạn mở khóa được thành tựu 10, tiêu ít hơn 500.000đ một tuần","2024-05-22 06:00:00"
+6,"Target","1","Cảnh báo chi tiêu","","Sắp đạt ngưỡng chi tiêu tuần, còn lại 50.000đ cho chi tiêu trong tuần này.","2024-05-22 06:00:00"
+7,"Target","1","Gọi ý chi tiêu","","Di chuyển bằng Grab sớm hơn 30 phút giúp tiết kiệm.","2024-05-22 06:00:00"
+8,"Target","1","Thanh toán thành công","","Thanh toán hóa đơn CircleK qua ví Momo thành công.","2024-05-22 06:00:00"
+9,"Broadcast",,"Cập nhật bản vá","","Một lỗi nghiêm trọng vừa được phát hiện, vui lòng cập nhật bản vá khẩn cấp!!!!","2024-05-22 06:00:00"
