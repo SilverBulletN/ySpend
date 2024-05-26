@@ -1,12 +1,13 @@
+// src/screens/Dashboard/Plan.js
 import React from "react";
 import { View, Text } from "react-native";
 
-const HomeScreen = () => {
+const Plan = () => {
   return (
     <View>
-      <Text>Home Screen</Text>
+      <Text>Plan Page</Text>
     </View>
   );
 };
 
-export default HomeScreen;
+export default Plan;
