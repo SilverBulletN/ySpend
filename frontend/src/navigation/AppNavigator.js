@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/Auth/LoginScreen";
 import SignUpScreen from "../screens/Auth/SignUpScreen";
+import EmailVerificationScreen from "../screens/Auth/EmailVerificationScreen";
 import {
   OnboardingScreen1,
   OnboardingScreen2,
@@ -27,6 +28,10 @@ const AppNavigator = () => {
         <Stack.Screen name="Onboarding4" component={OnboardingScreen4} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen
+          name="EmailVerification"
+          component={EmailVerificationScreen}
+        />
         <Stack.Screen name="Dashboard" component={DashboardNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
