@@ -1,10 +1,10 @@
-// src/navigation/AppNavigator.js
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/Auth/LoginScreen";
 import SignUpScreen from "../screens/Auth/SignUpScreen";
 import EmailVerificationScreen from "../screens/Auth/EmailVerificationScreen";
+import SetupProfileScreen from "../screens/Auth/SetupProfileScreen";
 import {
   OnboardingScreen1,
   OnboardingScreen2,
@@ -32,6 +32,7 @@ const AppNavigator = () => {
           name="EmailVerification"
           component={EmailVerificationScreen}
         />
+        <Stack.Screen name="SetupProfile" component={SetupProfileScreen} />
         <Stack.Screen name="Dashboard" component={DashboardNavigator} />
       </Stack.Navigator>
     </NavigationContainer>

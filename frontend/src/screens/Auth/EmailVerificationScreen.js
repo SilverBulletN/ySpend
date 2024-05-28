@@ -27,7 +27,7 @@ const EmailVerificationScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={tw`flex-1 bg-gray-50 p-6 justify-center`}>
+    <View style={tw`flex-1 bg-gray-50 p-6 justify-start`}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={tw`mb-6`}>
         <Text style={tw`text-teal-500 text-lg`}>← Quay lại</Text>
       </TouchableOpacity>
@@ -80,10 +80,10 @@ const EmailVerificationScreen = ({ navigation }) => {
               style={tw`bg-teal-500 rounded-full py-3 mt-6 w-full`}
               onPress={() => {
                 setIsVerified(false);
-                navigation.navigate("Dashboard");
+                navigation.navigate("SetupProfile");
               }}
             >
-              <Text style={tw`text-center text-white text-lg`}>
+              <Text style={tw`text-center text-white text-lg px-6`}>
                 Thiết lập hồ sơ
               </Text>
             </TouchableOpacity>

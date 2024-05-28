@@ -52,7 +52,7 @@ const SignUpScreen = ({ navigation }) => {
     }
 
     // Perform sign-up logic here
-    Alert.alert("Sign Up", "Đăng ký thành công!");
+    // Alert.alert("Sign Up", "Đăng ký thành công!");
     dispatch(setEmail(email));
     dispatch(setAuthenticated(true));
     navigation.navigate("EmailVerification");
