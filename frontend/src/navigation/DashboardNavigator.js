@@ -10,7 +10,10 @@ const DashboardStack = createStackNavigator();
 
 const DashboardNavigator = () => {
   return (
-    <DashboardStack.Navigator initialRouteName="HomePage">
+    <DashboardStack.Navigator
+      initialRouteName="HomePage"
+      screenOptions={{ headerShown: false }}
+    >
       <DashboardStack.Screen name="HomePage" component={HomePage} />
       <DashboardStack.Screen name="History" component={History} />
       <DashboardStack.Screen name="Plan" component={Plan} />
