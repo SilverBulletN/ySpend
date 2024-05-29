@@ -25,7 +25,7 @@ const LoginScreen = ({ navigation }) => {
     }
 
     // Simulate login
-    if (email === "admin@gmail.com" && password === "123456") {
+    if (email === "admin" && password === "123456") {
       dispatch(setEmail(email));
       dispatch(setAuthenticated(true));
       navigation.navigate("Dashboard");

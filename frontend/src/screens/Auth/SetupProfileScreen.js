@@ -71,7 +71,7 @@ const SetupProfileScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={tw`flex-1 bg-gray-50 p-6 justify-center`}>
+    <View style={tw`flex-1 bg-gray-50 p-6 justify-start`}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={tw`mb-6`}>
         <Text style={tw`text-teal-500 text-lg`}>← Quay lại</Text>
       </TouchableOpacity>
@@ -83,7 +83,7 @@ const SetupProfileScreen = ({ navigation }) => {
         {image ? (
           <Image
             source={{ uri: image.uri }}
-            style={tw`w-32 h-32 rounded-full`}
+            style={tw`w-26 h-26 rounded-full`}
           />
         ) : (
           <View
@@ -91,7 +91,7 @@ const SetupProfileScreen = ({ navigation }) => {
           >
             <Image
               source={require("../../../assets/icons/upload.png")}
-              style={tw`w-8 h-8`}
+              style={tw`w-6 h-6`}
             />
           </View>
         )}
