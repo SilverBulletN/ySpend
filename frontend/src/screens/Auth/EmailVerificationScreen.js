@@ -27,7 +27,7 @@ const EmailVerificationScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={tw`flex-1 bg-gray-50 p-6 justify-start`}>
+    <View style={tw`flex-1 bg-gray-50 p-6 pt-10 justify-start`}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={tw`mb-6`}>
         <Text style={tw`text-teal-500 text-lg`}>← Quay lại</Text>
       </TouchableOpacity>

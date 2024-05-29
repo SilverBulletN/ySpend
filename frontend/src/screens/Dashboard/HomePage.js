@@ -9,10 +9,13 @@ import { useSelector } from "react-redux";
 const HomePage = ({ navigation }) => {
   const firstName = useSelector((state) => state.auth.firstName);
   const lastName = useSelector((state) => state.auth.lastName);
+  const transactions = useSelector((state) => state.transactions);
+  const recentTransactions = transactions.slice(-3).reverse();
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
+
   return (
     <DefaultLayout>
-      <View style={tw`flex-row justify-between items-center`}>
+      <View style={tw`flex-row justify-between items-center mt-6 mx-6`}>
         <Text style={tw`text-white`}>Xin chào,</Text>
         <TouchableOpacity
           style={tw`bg-teal-500 p-2 rounded-lg`}
@@ -24,11 +27,11 @@ const HomePage = ({ navigation }) => {
           />
         </TouchableOpacity>
       </View>
-      <Text style={tw`text-2xl font-bold text-white`}>
+      <Text style={tw`text-2xl font-bold text-white mx-6`}>
         {firstName} {lastName}
       </Text>
 
-      <View style={tw`mt-6 bg-teal-500 p-4 rounded-lg`}>
+      <View style={tw`bg-teal-500 p-4 rounded-lg m-6`}>
         <Text style={tw`text-white text-lg`}>Số dư</Text>
         <View style={tw`flex-row items-center mt-2`}>
           <Text style={tw`text-white text-3xl font-bold`}>
@@ -64,7 +67,7 @@ const HomePage = ({ navigation }) => {
         </View>
       </View>
 
-      <View style={tw`mt-6`}>
+      <View style={tw`mx-6`}>
         <View style={tw`flex-row justify-between items-center`}>
           <Text style={tw`text-xl font-bold text-gray-900`}>
             Giao dịch gần đây
@@ -74,31 +77,20 @@ const HomePage = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View style={tw`mt-4`}>
-          <TransactionItem
-            logo={require("../../../assets/icons/ocb.png")}
-            title="Lương tháng 04/2024"
-            date="Hôm qua"
-            amount="+ 125,000,000 đ"
-            amountStyle="text-green-500"
-          />
-          <TransactionItem
-            logo={require("../../../assets/icons/paypal.png")}
-            title="Thanh toán Netflix"
-            date="Jan 30, 2022"
-            amount="- 252,000 đ"
-            amountStyle="text-red-500"
-          />
-          <TransactionItem
-            logo={require("../../../assets/icons/youtube.png")}
-            title="Youtube Premium"
-            date="Jan 16, 2022"
-            amount="- 399,000 đ"
-            amountStyle="text-red-500"
-          />
+          {recentTransactions.map((transaction) => (
+            <TransactionItem
+              key={transaction.id}
+              logo={transaction.logo}
+              title={transaction.title}
+              date={transaction.date}
+              amount={transaction.amount}
+              amountStyle={transaction.amountStyle}
+            />
+          ))}
         </View>
       </View>
 
-      <View style={tw`mt-6`}>
+      <View style={tw`m-6`}>
         <View style={tw`flex-row justify-between items-center`}>
           <Text style={tw`text-xl font-bold text-gray-900`}>
             Tiến độ chi tiêu

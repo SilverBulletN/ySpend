@@ -12,7 +12,7 @@ const DashboardNavigator = () => {
   return (
     <DashboardStack.Navigator
       initialRouteName="HomePage"
-      screenOptions={{ headerShown: true }}
+      screenOptions={{ headerShown: false }}
     >
       <DashboardStack.Screen name="HomePage" component={HomePage} />
       <DashboardStack.Screen name="History" component={History} />

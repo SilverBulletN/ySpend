@@ -3,12 +3,12 @@ import { View, ScrollView, StyleSheet, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import tw from "twrnc";
 import Footer from "./Footer";
+import Header from "./Header";
 
-const { width } = Dimensions.get("window");
-
-const DefaultLayout = ({ children }) => {
+const DefaultLayout = ({ children, isFlatList }) => {
   return (
     <View style={tw`flex-1`}>
+      <Header />
       <View style={styles.curvedBackgroundContainer}>
         <LinearGradient
           colors={["#00bfa5", "#00897b"]}
@@ -17,9 +17,13 @@ const DefaultLayout = ({ children }) => {
         <View style={styles.circle1} />
         <View style={styles.circle2} />
       </View>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <View style={tw`p-6`}>{children}</View>
-      </ScrollView>
+      {isFlatList ? (
+        children
+      ) : (
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          <View>{children}</View>
+        </ScrollView>
+      )}
       <Footer />
     </View>
   );
