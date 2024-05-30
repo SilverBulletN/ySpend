@@ -42,8 +42,10 @@ const styles = StyleSheet.create({
   curvedBackground: {
     height: "100%",
     width: "100%",
-    borderBottomLeftRadius: "30% 50%",
-    borderBottomRightRadius: "30% 50%",
+    // border bottom 
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+
   },
   circle1: {
     position: "absolute",

@@ -36,12 +36,17 @@ const Notification = ({ navigation }) => {
   return (
     <DefaultLayout isFlatList>
       <View style={tw`flex-1`}>
-        <View style={tw`p-6 bg-teal-500`}>
+        <View style={tw`p-6 items-center flex-row`}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={tw`mb-4`}
           >
-            <Text style={tw`text-white text-lg`}>← Thông báo</Text>
+            <Text style={tw`text-white text-lg`}>←</Text>
+          </TouchableOpacity>
+            <Text style={tw`text-white text-lg`}>Thông báo</Text>
+            <TouchableOpacity
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={tw`text-white text-lg`}>...</Text>
           </TouchableOpacity>
         </View>
         <FlatList
