@@ -4,6 +4,7 @@ import tw from "twrnc";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import PlanItem from "../../components/common/PlanItem";
 import { useSelector } from "react-redux";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Plan = ({ navigation }) => {
   const plans = useSelector((state) => state.plans);
@@ -20,10 +21,11 @@ const Plan = ({ navigation }) => {
     <DefaultLayout isFlatList>
       <View style={tw`p-6 flex-row justify-between items-center`}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={tw`text-white text-lg `}>← Kế hoạch chi tiêu</Text>
+          <Ionicons name="arrow-back" size={30} color="white" />
         </TouchableOpacity>
+        <Text style={tw`text-white text-lg`}>Kế hoạch chi tiêu</Text>
         <TouchableOpacity>
-          <Text style={tw`text-white text-3xl`}>+</Text>
+          <Ionicons name="add" size={30} color="white" />
         </TouchableOpacity>
       </View>
       <View style={tw`flex-row justify-around bg-gray-50 p-4`}>

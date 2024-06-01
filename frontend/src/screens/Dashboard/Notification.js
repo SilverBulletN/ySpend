@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import tw from "twrnc";
 import { useSelector } from "react-redux";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import NotificationItem from "../../components/common/NotificationItem";
 
@@ -36,17 +37,15 @@ const Notification = ({ navigation }) => {
   return (
     <DefaultLayout isFlatList>
       <View style={tw`flex-1`}>
-        <View style={tw`p-6 items-center flex-row`}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={tw`text-white text-lg`}>←</Text>
+        <View style={tw`p-6 flex-row justify-between items-center`}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color="white" />
           </TouchableOpacity>
-            <Text style={tw`text-white text-lg`}>Thông báo</Text>
-            <TouchableOpacity
-            onPress={() => navigation.goBack()}
+          <Text style={tw`text-white text-xl`}>Thông báo</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("NotificationSetting")}
           >
-            <Text style={tw`text-white text-lg`}>...</Text>
+            <Ionicons name="settings-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>
         <FlatList

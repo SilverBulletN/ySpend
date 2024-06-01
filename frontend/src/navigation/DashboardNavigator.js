@@ -4,7 +4,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomePage from "../screens/Dashboard/HomePage";
 import History from "../screens/Dashboard/History";
 import Plan from "../screens/Dashboard/Plan";
-import Notifications from "../screens/Dashboard/Notifications";
+import Notification from "../screens/Dashboard/Notification";
+import NotificationSetting from "../screens/Dashboard/NotificationSetting";
 
 const DashboardStack = createStackNavigator();
 
@@ -17,7 +18,11 @@ const DashboardNavigator = () => {
       <DashboardStack.Screen name="HomePage" component={HomePage} />
       <DashboardStack.Screen name="History" component={History} />
       <DashboardStack.Screen name="Plan" component={Plan} />
-      <DashboardStack.Screen name="Notifications" component={Notifications} />
+      <DashboardStack.Screen name="Notification" component={Notification} />
+      <DashboardStack.Screen
+        name="NotificationSetting"
+        component={NotificationSetting}
+      />
     </DashboardStack.Navigator>
   );
 };

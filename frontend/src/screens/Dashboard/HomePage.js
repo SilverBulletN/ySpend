@@ -5,6 +5,7 @@ import DefaultLayout from "../../components/layout/DefaultLayout";
 import TransactionItem from "../../components/common/TransactionItem";
 import ProgressItem from "../../components/common/ProgressItem";
 import { useSelector } from "react-redux";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const HomePage = ({ navigation }) => {
   const firstName = useSelector((state) => state.auth.firstName);
@@ -19,7 +20,7 @@ const HomePage = ({ navigation }) => {
         <Text style={tw`text-white`}>Xin chào,</Text>
         <TouchableOpacity
           style={tw`bg-teal-500 p-2 rounded-lg`}
-          onPress={() => navigation.navigate("Notifications")}
+          onPress={() => navigation.navigate("Notification")}
         >
           <Image
             source={require("../../../assets/icons/notification.png")}
@@ -32,7 +33,12 @@ const HomePage = ({ navigation }) => {
       </Text>
 
       <View style={tw`bg-teal-500 p-4 rounded-lg m-6`}>
-        <Text style={tw`text-white text-lg`}>Số dư</Text>
+        <View style={tw`flex-row justify-between items-center`}>
+          <Text style={tw`text-white text-lg`}>Số dư</Text>
+          <TouchableOpacity>
+            <Ionicons name="ellipsis-horizontal" size={24} color="white" />
+          </TouchableOpacity>
+        </View>
         <View style={tw`flex-row items-center mt-2`}>
           <Text style={tw`text-white text-3xl font-bold`}>
             {isBalanceVisible ? "3,000,000 đ" : "**********"}
@@ -41,25 +47,28 @@ const HomePage = ({ navigation }) => {
             style={tw`ml-2`}
             onPress={() => setIsBalanceVisible(!isBalanceVisible)}
           >
-            <Image
-              source={
-                isBalanceVisible
-                  ? require("../../../assets/icons/eye.png")
-                  : require("../../../assets/icons/eye-off.png")
-              }
-              style={tw`w-7 h-7 m-auto`}
+            <Ionicons
+              name={isBalanceVisible ? "eye" : "eye-off"}
+              size={24}
+              color="white"
             />
           </TouchableOpacity>
         </View>
         <View style={tw`flex-row justify-between mt-4`}>
-          <View style={tw`flex-2`}>
-            <Text style={tw`text-white`}>Thu nhập</Text>
+          <View style={tw`flex-1 items-center`}>
+            <View style={tw`flex-row items-center`}>
+              <Ionicons name="arrow-down" size={20} color="white" />
+              <Text style={tw`text-white ml-1`}>Thu nhập</Text>
+            </View>
             <Text style={tw`text-white text-lg`}>
               {isBalanceVisible ? "10,000,000 đ" : "**********"}
             </Text>
           </View>
-          <View style={tw`flex-1`}>
-            <Text style={tw`text-white`}>Chi tiêu</Text>
+          <View style={tw`flex-1 items-center`}>
+            <View style={tw`flex-row items-center`}>
+              <Ionicons name="arrow-up" size={20} color="white" />
+              <Text style={tw`text-white ml-1`}>Chi tiêu</Text>
+            </View>
             <Text style={tw`text-white text-lg`}>
               {isBalanceVisible ? "7,000,000 đ" : "**********"}
             </Text>

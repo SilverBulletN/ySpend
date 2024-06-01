@@ -67,7 +67,7 @@ const EmailVerificationScreen = ({ navigation }) => {
           <View style={tw`bg-white p-6 rounded-lg justify-center items-center`}>
             <Image
               source={require("../../../assets/icons/success.png")}
-              style={tw`w-16 h-16`}
+              style={tw`w-12 h-12 bg-teal-500 rounded-full`}
             />
             <Text style={tw`text-xl font-bold text-gray-900 mt-6`}>
               Tuyệt vời!

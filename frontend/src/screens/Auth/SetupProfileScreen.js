@@ -31,7 +31,7 @@ const SetupProfileScreen = ({ navigation }) => {
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
           Alert.alert(
-            "Sorry, we need camera roll permissions to make this work!"
+            "Cần quyền truy cập bộ nhớ để chọn ảnh",
           );
         }
       }
@@ -47,7 +47,10 @@ const SetupProfileScreen = ({ navigation }) => {
     });
 
     if (!result.canceled) {
-      setImage({ uri: result.uri });
+      const uri = result.assets[0].uri;
+      setImage(uri);
+    } else {
+      alert("Vui lòng chọn ảnh");
     }
   };
 
@@ -62,7 +65,7 @@ const SetupProfileScreen = ({ navigation }) => {
     dispatch(setLastName(lastName));
     dispatch(
       setProfileImage(
-        image ? image.uri : require("../../../assets/icons/defaultavatar.png")
+        image ? image : require("../../../assets/icons/defaultavatar.png")
       )
     ); // Set the selected or default image
 
@@ -81,13 +84,10 @@ const SetupProfileScreen = ({ navigation }) => {
       </View>
       <TouchableOpacity onPress={pickImage} style={tw`items-center mb-4`}>
         {image ? (
-          <Image
-            source={{ uri: image.uri }}
-            style={tw`w-26 h-26 rounded-full`}
-          />
+          <Image source={{ uri: image }} style={tw`w-32 h-32 rounded-full`} />
         ) : (
           <View
-            style={tw`w-26 h-26 rounded-full bg-teal-500 justify-center items-center`}
+            style={tw`w-32 h-32 rounded-full bg-teal-500 justify-center items-center`}
           >
             <Image
               source={require("../../../assets/icons/upload.png")}
