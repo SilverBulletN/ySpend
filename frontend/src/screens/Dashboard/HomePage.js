@@ -93,6 +93,7 @@ const HomePage = ({ navigation }) => {
                   transaction: transaction,
                 })
               }
+              key={transaction.id}
             >
               <TransactionItem
                 key={transaction.id}
