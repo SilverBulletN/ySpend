@@ -85,16 +85,24 @@ const HomePage = ({ navigation }) => {
             <Text style={tw`text-teal-500`}>Xem tất cả</Text>
           </TouchableOpacity>
         </View>
-        <View style={tw`mt-4`}>
+        <View>
           {recentTransactions.map((transaction) => (
-            <TransactionItem
-              key={transaction.id}
-              logo={transaction.logo}
-              title={transaction.title}
-              date={transaction.date}
-              amount={transaction.amount}
-              amountStyle={transaction.amountStyle}
-            />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("TransactionDetail", {
+                  transaction: transaction,
+                })
+              }
+            >
+              <TransactionItem
+                key={transaction.id}
+                logo={transaction.logo}
+                title={transaction.title}
+                date={transaction.date}
+                amount={transaction.amount}
+                amountStyle={transaction.amountStyle}
+              />
+            </TouchableOpacity>
           ))}
         </View>
       </View>
@@ -118,7 +126,7 @@ const HomePage = ({ navigation }) => {
             <Text style={tw`text-gray-500`}>Xem tất cả</Text>
           </TouchableOpacity>
         </View>
-        <View style={tw`mt-4`}>
+        <View>
           <ProgressItem title="Ăn uống" mount={2000000} limit_mount={3000000} />
           <ProgressItem
             title="Giáo dục"

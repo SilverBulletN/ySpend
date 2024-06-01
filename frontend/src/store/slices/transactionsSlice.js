@@ -25,7 +25,7 @@ const fetchInitialData = async () => {
       to_vendor: "Netflix",
       category_id: "2",
       image_url: "https://placehold.co/600x400",
-      amount: 252000,
+      amount: -252000,
     },
     {
       recipe_id: "3",
@@ -37,7 +37,7 @@ const fetchInitialData = async () => {
       to_vendor: "Unknown",
       category_id: "2",
       image_url: "https://placehold.co/600x400",
-      amount: 252000,
+      amount: -252000,
     },
   ];
 };

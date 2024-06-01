@@ -6,6 +6,7 @@ import History from "../screens/Dashboard/History";
 import Plan from "../screens/Dashboard/Plan";
 import Notification from "../screens/Dashboard/Notification";
 import NotificationSetting from "../screens/Dashboard/NotificationSetting";
+import TransactionDetail from "../screens/Dashboard/TransactionDetail";
 
 const DashboardStack = createStackNavigator();
 
@@ -16,6 +17,7 @@ const DashboardNavigator = () => {
       screenOptions={{ headerShown: false }}
     >
       <DashboardStack.Screen name="HomePage" component={HomePage} />
+      <DashboardStack.Screen name="TransactionDetail" component={TransactionDetail} />
       <DashboardStack.Screen name="History" component={History} />
       <DashboardStack.Screen name="Plan" component={Plan} />
       <DashboardStack.Screen name="Notification" component={Notification} />

@@ -72,13 +72,19 @@ const History = ({ navigation }) => {
   }, [searchQuery, filters, transactions]);
 
   const renderItem = ({ item }) => (
-    <TransactionItem
-      logo={item.logo}
-      title={item.title}
-      date={item.date}
-      amount={item.amountString}
-      amountStyle={item.amountStyle}
-    />
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("TransactionDetail", { transaction: item })
+      }
+    >
+      <TransactionItem
+        logo={item.logo}
+        title={item.title}
+        date={item.date}
+        amount={item.amountString}
+        amountStyle={item.amountStyle}
+      />
+    </TouchableOpacity>
   );
 
   const applyFilters = (newFilters) => {

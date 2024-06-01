@@ -4,7 +4,7 @@ import tw from "twrnc";
 
 const Footer = () => {
   return (
-    <View style={tw`flex-row justify-between items-center bg-white p-4 pb-5`}>
+    <View style={tw`flex-row justify-between items-center bg-white p-4 pb-6`}>
       <TouchableOpacity style={tw`flex-1 items-center`}>
         <Image
           source={require("../../../assets/icons/home.png")}
