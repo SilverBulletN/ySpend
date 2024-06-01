@@ -54,8 +54,8 @@ const HomePage = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <View style={tw`flex-row justify-between mt-4`}>
-          <View style={tw`flex-1 items-center`}>
+        <View style={tw`flex-row mt-4`}>
+          <View style={tw`flex-1`}>
             <View style={tw`flex-row items-center`}>
               <Ionicons name="arrow-down" size={20} color="white" />
               <Text style={tw`text-white ml-1`}>Thu nhập</Text>
@@ -64,7 +64,7 @@ const HomePage = ({ navigation }) => {
               {isBalanceVisible ? "10,000,000 đ" : "**********"}
             </Text>
           </View>
-          <View style={tw`flex-1 items-center`}>
+          <View style={tw`flex-1`}>
             <View style={tw`flex-row items-center`}>
               <Ionicons name="arrow-up" size={20} color="white" />
               <Text style={tw`text-white ml-1`}>Chi tiêu</Text>
@@ -100,29 +100,35 @@ const HomePage = ({ navigation }) => {
       </View>
 
       <View style={tw`m-6`}>
-        <View style={tw`flex-row justify-between items-center`}>
-          <Text style={tw`text-xl font-bold text-gray-900`}>
-            Tiến độ chi tiêu
-          </Text>
+        <View style={tw`flex-row justify-between items-center mb-4`}>
+          <View style={tw`flex-row justify-between items-center`}>
+            <Text style={tw`text-lg font-bold text-gray-900`}>
+              Tiến độ chi tiêu
+            </Text>
+            <View style={tw`flex-row items-center`}>
+              <TouchableOpacity
+                style={tw`bg-gray-200 px-3 py-1 rounded-full mr-2 ml-2`}
+                onPress={() => navigation.navigate("Plan")}
+              >
+                <Text style={tw`text-black font-semibold`}>+ Thêm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           <TouchableOpacity onPress={() => navigation.navigate("Plan")}>
-            <Text style={tw`text-teal-500`}>+ Thêm</Text>
+            <Text style={tw`text-gray-500`}>Xem tất cả</Text>
           </TouchableOpacity>
         </View>
         <View style={tw`mt-4`}>
-          <ProgressItem
-            title="Ăn uống"
-            progress="2,000,000/3,000,000 đ"
-            progressWidth="2/3"
-          />
+          <ProgressItem title="Ăn uống" mount={2000000} limit_mount={3000000} />
           <ProgressItem
             title="Giáo dục"
-            progress="2,000,000/3,000,000 đ"
-            progressWidth="2/3"
+            mount={2500000}
+            limit_mount={3000000}
           />
           <ProgressItem
             title="Giải trí"
-            progress="2,000,000/3,000,000 đ"
-            progressWidth="2/3"
+            mount={2000000}
+            limit_mount={3000000}
           />
         </View>
       </View>

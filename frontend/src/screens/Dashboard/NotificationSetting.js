@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Switch, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import DefaultLayout from "../../components/layout/DefaultLayout";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const NotificationSetting = ({ navigation }) => {
   const [settings, setSettings] = useState({
@@ -19,15 +20,17 @@ const NotificationSetting = ({ navigation }) => {
 
   return (
     <DefaultLayout>
-      <View style={tw`flex-1`}>
-        <View style={tw`p-6 flex-row justify-between items-center`}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={tw`text-white text-lg`}>←</Text>
+      <View style={tw`flex-1 p-6`}>
+        <View style={tw`flex-row items-center justify-center mb-4 relative`}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={tw`absolute left-0 items-center`}
+          >
+            <Ionicons name="arrow-back" size={24} color="white" />
           </TouchableOpacity>
           <Text style={tw`text-white text-lg`}>Cài đặt thông báo</Text>
-          <View style={tw`w-6`}></View>
         </View>
-        <View style={tw`m-4 p-6 bg-white rounded-lg mt-4`}>
+        <View style={tw`p-6 bg-white rounded-lg mt-4`}>
           {[
             {
               key: "allNotifications",

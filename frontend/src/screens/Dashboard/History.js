@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,70 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  Modal,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import tw from "twrnc";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import TransactionItem from "../../components/common/TransactionItem";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FilterModal from "./FilterModal";
+import { fetchTransactions } from "../../store/slices/transactionsSlice";
 
 const History = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const [isModalVisible, setModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filters, setFilters] = useState({
+    amount: "Tất cả",
+    category: "Tất cả",
+    time: "Tất cả",
+    type: "Tất cả",
+  });
+
   const transactions = useSelector((state) => state.transactions);
+
+  useEffect(() => {
+    if (transactions.length === 0) {
+      dispatch(fetchTransactions());
+    }
+  }, [dispatch, transactions.length]);
+
+  const filteredTransactions = useMemo(() => {
+    return transactions.filter((transaction) => {
+      const matchesSearchQuery = transaction.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      // const matchesType = filters;
+      const matchesType =
+        filters.type === "Tất cả" ||
+        (filters.type === "Thu nhập" && transaction.amount > 0) ||
+        (filters.type === "Chi tiêu" && transaction.amount < 0);
+      const matchesCategory =
+        filters.category === "Tất cả" ||
+        transaction.category_id === filters.category;
+      // const matchesAmount = filters;
+      const matchesAmount =
+        filters.amount === "Tất cả" ||
+        (filters.amount === "0 - 1 triệu" &&
+          transaction.amount >= 0 &&
+          transaction.amount <= 1000000) ||
+        (filters.amount === "1 - 5 triệu" &&
+          transaction.amount > 1000000 &&
+          transaction.amount <= 5000000) ||
+        (filters.amount === "5 - 10 triệu" &&
+          transaction.amount > 5000000 &&
+          transaction.amount <= 10000000) ||
+        (filters.amount === "10 - 50 triệu" &&
+          transaction.amount > 10000000 &&
+          transaction.amount <= 50000000) ||
+        (filters.amount === "> 50 triệu" && transaction.amount > 50000000);
+
+      return (
+        matchesSearchQuery && matchesType && matchesCategory && matchesAmount
+      );
+    });
+  }, [searchQuery, filters, transactions]);
 
   const renderItem = ({ item }) => (
     <TransactionItem
@@ -27,16 +81,31 @@ const History = ({ navigation }) => {
     />
   );
 
+  const applyFilters = (newFilters) => {
+    console.log(newFilters);
+    setFilters(newFilters);
+    setModalVisible(false);
+  };
+  const handleFilterChange = (newType) => {
+    setFilters((prevFilter) => ({
+      ...prevFilter,
+      type: newType,
+    }));
+  };
+
   return (
     <DefaultLayout isFlatList>
       <View style={tw`p-6`}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={tw`mb-4 flex-row items-center`}
-        >
-          <Ionicons name="arrow-back" size={24} color="white" />
-          <Text style={tw`text-white text-lg ml-2`}>Lịch sử giao dịch</Text>
-        </TouchableOpacity>
+        <View style={tw`flex-row items-center justify-center mb-4 relative`}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={tw`absolute left-0 items-center`}
+          >
+            <Ionicons name="arrow-back" size={24} color="white" />
+          </TouchableOpacity>
+          <Text style={tw`text-white text-lg`}>Lịch sử giao dịch</Text>
+        </View>
+
         <View style={tw`flex-row items-center`}>
           <View
             style={tw`bg-white p-3 rounded-lg flex-1 flex-row items-center`}
@@ -49,8 +118,10 @@ const History = ({ navigation }) => {
               onChangeText={setSearchQuery}
             />
           </View>
-          <TouchableOpacity style={tw`p-3 ml-2`}>
-            {/* <Ionicons name="filter-outline" size={24} color="white" /> */}
+          <TouchableOpacity
+            style={tw`p-3 ml-2`}
+            onPress={() => setModalVisible(true)}
+          >
             <Image
               source={require("../../../assets/icons/filter.png")}
               style={tw`w-8 h-8`}
@@ -59,21 +130,59 @@ const History = ({ navigation }) => {
         </View>
       </View>
       <View style={tw`flex-row justify-around bg-gray-50 p-4`}>
-        <TouchableOpacity>
-          <Text style={tw`text-teal-500`}>Tất cả</Text>
+        <TouchableOpacity
+          onPress={() => handleFilterChange("Tất cả")}
+          style={tw`flex-1 items-center ${
+            filters.type == "Tất cả" ? "border-b-2 border-teal-500" : ""
+          }`}
+        >
+          <Text
+            style={tw`${
+              filters.type === "Tất cả" ? "text-teal-500" : "text-gray-500"
+            }`}
+          >
+            Tất cả
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={tw`text-gray-500`}>Chi tiêu</Text>
+        <TouchableOpacity
+          onPress={() => handleFilterChange("Chi tiêu")}
+          style={tw`flex-1 items-center ${
+            filters.type == "Chi tiêu" ? "border-b-2 border-teal-500" : ""
+          }`}
+        >
+          <Text
+            style={tw`${
+              filters.type === "Chi tiêu" ? "text-teal-500" : "text-gray-500"
+            }`}
+          >
+            Chi tiêu
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={tw`text-gray-500`}>Thu nhập</Text>
+        <TouchableOpacity
+          onPress={() => handleFilterChange("Thu nhập")}
+          style={tw`flex-1 items-center ${
+            filters.type == "Thu nhập" ? "border-b-2 border-teal-500" : ""
+          }`}
+        >
+          <Text
+            style={tw`${
+              filters.type === "Thu nhập" ? "text-teal-500" : "text-gray-500"
+            }`}
+          >
+            Thu nhập
+          </Text>
         </TouchableOpacity>
       </View>
       <FlatList
-        data={transactions}
+        data={filteredTransactions}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={tw`px-4 bg-gray-50`}
+        contentContainerStyle={tw`px-4 pb-4 bg-gray-50`}
+      />
+      <FilterModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        onApply={applyFilters}
       />
     </DefaultLayout>
   );
