@@ -4,7 +4,7 @@ import tw from "twrnc";
 
 const PlanItem = ({ logo, week, dateRange, amount }) => (
   <View
-    style={tw`flex-row justify-between items-center p-4 border-b border-gray-200`}
+    style={tw`flex-row justify-between items-center p-4`}
   >
     <View style={tw`flex-row items-center`}>
       <Image source={logo} style={tw`w-10 h-10 mr-4`} />
