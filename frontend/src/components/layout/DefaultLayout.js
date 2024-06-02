@@ -1,22 +1,24 @@
 import React from "react";
-import { View, ScrollView, StyleSheet, Dimensions } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import tw from "twrnc";
 import Footer from "./Footer";
 import Header from "./Header";
 
-const DefaultLayout = ({ children, isFlatList }) => {
+const DefaultLayout = ({ children, isFlatList, hasBackground = true, hasFooter = true }) => {
   return (
-    <View style={tw`flex-1`}>
+    <View style={tw`flex-1 bg-white`}>
       <Header />
-      <View style={styles.curvedBackgroundContainer}>
-        <LinearGradient
-          colors={["#00bfa5", "#00897b"]}
-          style={styles.curvedBackground}
-        />
-        <View style={styles.circle1} />
-        <View style={styles.circle2} />
-      </View>
+      {hasBackground && (
+        <View style={styles.curvedBackgroundContainer}>
+          <LinearGradient
+            colors={["#00bfa5", "#00897b"]}
+            style={styles.curvedBackground}
+          />
+          <View style={styles.circle1} />
+          <View style={styles.circle2} />
+        </View>
+      )}
       {isFlatList ? (
         children
       ) : (
@@ -24,7 +26,7 @@ const DefaultLayout = ({ children, isFlatList }) => {
           <View>{children}</View>
         </ScrollView>
       )}
-      <Footer />
+      {hasFooter && <Footer />}
     </View>
   );
 };
@@ -42,10 +44,8 @@ const styles = StyleSheet.create({
   curvedBackground: {
     height: "100%",
     width: "100%",
-    // border bottom 
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-
   },
   circle1: {
     position: "absolute",
