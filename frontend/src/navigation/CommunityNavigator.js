@@ -1,19 +1,24 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import CommunityFeed from "../screens/Community/CommunityFeed";
+import PostDetail from "../screens/Community/PostDetail";
 
-const Stack = createStackNavigator();
+const CommunityStack = createStackNavigator();
 
 const CommunityNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
+    <CommunityStack.Navigator>
+      <CommunityStack.Screen
         name="CommunityFeed"
         component={CommunityFeed}
         options={{ headerShown: false }}
       />
-      {/* Add more screens related to the community as needed */}
-    </Stack.Navigator>
+      <CommunityStack.Screen
+        name="PostDetail"
+        component={PostDetail}
+        options={{ headerShown: false }}
+      />
+    </CommunityStack.Navigator>
   );
 };
 
