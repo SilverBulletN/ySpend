@@ -52,18 +52,19 @@ const History = ({ navigation }) => {
       const matchesAmount =
         filters.amount === "Tất cả" ||
         (filters.amount === "0 - 1 triệu" &&
-          transaction.amount >= 0 &&
-          transaction.amount <= 1000000) ||
+          Math.abs(transaction.amount) >= 0 &&
+          Math.abs(transaction.amount) <= 1000000) ||
         (filters.amount === "1 - 5 triệu" &&
-          transaction.amount > 1000000 &&
-          transaction.amount <= 5000000) ||
+          Math.abs(transaction.amount) > 1000000 &&
+          Math.abs(transaction.amount) <= 5000000) ||
         (filters.amount === "5 - 10 triệu" &&
-          transaction.amount > 5000000 &&
-          transaction.amount <= 10000000) ||
+          Math.abs(transaction.amount) > 5000000 &&
+          Math.abs(transaction.amount) <= 10000000) ||
         (filters.amount === "10 - 50 triệu" &&
-          transaction.amount > 10000000 &&
-          transaction.amount <= 50000000) ||
-        (filters.amount === "> 50 triệu" && transaction.amount > 50000000);
+          Math.abs(transaction.amount) > 10000000 &&
+          Math.abs(transaction.amount) <= 50000000) ||
+        (filters.amount === "> 50 triệu" &&
+          Math.abs(transaction.amount) > 50000000);
 
       return (
         matchesSearchQuery && matchesType && matchesCategory && matchesAmount
