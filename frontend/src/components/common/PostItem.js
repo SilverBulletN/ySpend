@@ -3,25 +3,32 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, navigation }) => {
   const [imageError, setImageError] = useState(false);
   return (
     <View style={tw`bg-white p-4 mb-4 rounded-lg shadow-lg`}>
-      <View style={tw`flex-row items-center mb-2`}>
-        {imageError ? (
-          <Ionicons name="person-circle-outline" size={40} color="gray" />
-        ) : (
-          <Image
-            source={{ uri: post.user.avatar }}
-            style={tw`w-10 h-10 rounded-full`}
-            onError={() => setImageError(true)}
-          />
-        )}
-        <View style={tw`ml-2`}>
-          <Text style={tw`font-bold`}>{post.user.name}</Text>
-          <Text style={tw`text-gray-500`}>{post.time}</Text>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("CommunityProfile", { user: post.user })
+        }
+      >
+        <View style={tw`flex-row items-center mb-2`}>
+          {imageError ? (
+            <Ionicons name="person-circle-outline" size={40} color="gray" />
+          ) : (
+            <Image
+              source={{ uri: post.user.avatar }}
+              style={tw`w-10 h-10 rounded-full`}
+              onError={() => setImageError(true)}
+            />
+          )}
+          <View style={tw`ml-2`}>
+            <Text style={tw`font-bold`}>{post.user.name}</Text>
+            <Text style={tw`text-gray-500`}>{post.time}</Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
+
       <Text style={tw`mb-2`}>{post.content}</Text>
       {post.image && (
         <Image

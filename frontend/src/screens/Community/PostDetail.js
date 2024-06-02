@@ -11,6 +11,7 @@ import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import { useSelector } from "react-redux";
+import PostItem from "../../components/common/PostItem";
 
 const comments = [
   {
@@ -47,7 +48,7 @@ const PostDetail = ({ route, navigation }) => {
   const user = useSelector((state) => state.auth);
 
   const renderItem = ({ item }) => (
-    <View style={tw`flex-row items-start mb-4`}>
+    <View style={tw`flex-row items-start mb-4 p-2`}>
       <Image
         source={{ uri: item.user.avatar }}
         style={tw`w-8 h-8 rounded-full`}
@@ -80,38 +81,7 @@ const PostDetail = ({ route, navigation }) => {
         <FlatList
           data={comments}
           keyExtractor={(item) => item.id}
-          ListHeaderComponent={
-            <View style={tw`p-4`}>
-              <View style={tw`flex-row items-center mb-2`}>
-                <Image
-                  source={{ uri: post.user.avatar }}
-                //   source={require("../../../assets/icons/defaultavatar.png")}
-                  style={tw`w-10 h-10 rounded-full`}
-                />
-                <View style={tw`ml-2`}>
-                  <Text style={tw`font-bold`}>{post.user.name}</Text>
-                  <Text style={tw`text-gray-500`}>{post.time}</Text>
-                </View>
-              </View>
-              <Text style={tw`mb-2`}>{post.content}</Text>
-              {post.image && (
-                <Image
-                  source={{ uri: post.image }}
-                  style={tw`w-full h-40 rounded-lg mb-2`}
-                />
-              )}
-              <View style={tw`flex-row justify-between mb-4`}>
-                <View style={tw`flex-row items-center`}>
-                  <Ionicons name="heart-outline" size={20} color="gray" />
-                  <Text style={tw`ml-1`}>{post.likes}</Text>
-                </View>
-                <View style={tw`flex-row items-center`}>
-                  <Ionicons name="chatbubble-outline" size={20} color="gray" />
-                  <Text style={tw`ml-1`}>{post.comments}</Text>
-                </View>
-              </View>
-            </View>
-          }
+          ListHeaderComponent={<PostItem post={post} navigation={navigation} />}
           renderItem={renderItem}
           contentContainerStyle={tw`p-4`}
         />

@@ -18,7 +18,8 @@ const posts = [
     id: "1",
     user: {
       name: "Minh Nguyen Tuan",
-      avatar: "../../../assets/icons/defaultavatar.png",
+      avatar:
+        "https://scontent.fsgn16-1.fna.fbcdn.net/v/t39.30808-1/312524461_3366611090333071_465695464507083484_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3w5drj174qgQ7kNvgGyLsSZ&_nc_ht=scontent.fsgn16-1.fna&oh=00_AYD4p0LC2OmG7byoaDDDKRN-91aB09rb7BSq4ojgQfFSYw&oe=66625F59",
     },
     time: "08:39 am",
     content:
@@ -32,7 +33,8 @@ const posts = [
     id: "2",
     user: {
       name: "Minh Nguyen Tuan",
-      avatar: "../../../assets/icons/defaultavatar.png",
+      avatar:
+        "https://scontent.fsgn16-1.fna.fbcdn.net/v/t39.30808-1/312524461_3366611090333071_465695464507083484_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3w5drj174qgQ7kNvgGyLsSZ&_nc_ht=scontent.fsgn16-1.fna&oh=00_AYD4p0LC2OmG7byoaDDDKRN-91aB09rb7BSq4ojgQfFSYw&oe=66625F59",
     },
     time: "08:39 am",
     content:
@@ -46,7 +48,8 @@ const posts = [
     id: "3",
     user: {
       name: "Minh Nguyen Tuan",
-      avatar: "../../../assets/icons/defaultavatar.png",
+      avatar:
+        "https://scontent.fsgn16-1.fna.fbcdn.net/v/t39.30808-1/312524461_3366611090333071_465695464507083484_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3w5drj174qgQ7kNvgGyLsSZ&_nc_ht=scontent.fsgn16-1.fna&oh=00_AYD4p0LC2OmG7byoaDDDKRN-91aB09rb7BSq4ojgQfFSYw&oe=66625F59",
     },
     time: "08:39 am",
     content:
@@ -60,7 +63,8 @@ const posts = [
     id: "4",
     user: {
       name: "Minh Nguyen Tuan",
-      avatar: "../../../assets/icons/defaultavatar.png",
+      avatar:
+        "https://scontent.fsgn16-1.fna.fbcdn.net/v/t39.30808-1/312524461_3366611090333071_465695464507083484_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3w5drj174qgQ7kNvgGyLsSZ&_nc_ht=scontent.fsgn16-1.fna&oh=00_AYD4p0LC2OmG7byoaDDDKRN-91aB09rb7BSq4ojgQfFSYw&oe=66625F59",
     },
     time: "08:39 am",
     content:
@@ -78,7 +82,7 @@ const CommunityFeed = ({ navigation }) => {
     <TouchableOpacity
       onPress={() => navigation.navigate("PostDetail", { post: item })}
     >
-      <PostItem post={item} />
+      <PostItem post={item} navigation={navigation} />
     </TouchableOpacity>
   );
 
