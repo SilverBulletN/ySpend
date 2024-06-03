@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   FlatList,
@@ -11,78 +11,26 @@ import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import PostItem from "../../components/common/PostItem";
-import { useSelector } from "react-redux";
-
-const posts = [
-  {
-    id: "1",
-    user: {
-      name: "Minh Nguyen Tuan",
-      avatar:
-        "https://scontent.fsgn16-1.fna.fbcdn.net/v/t39.30808-1/312524461_3366611090333071_465695464507083484_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3w5drj174qgQ7kNvgGyLsSZ&_nc_ht=scontent.fsgn16-1.fna&oh=00_AYD4p0LC2OmG7byoaDDDKRN-91aB09rb7BSq4ojgQfFSYw&oe=66625F59",
-    },
-    time: "08:39 am",
-    content:
-      "Thay vì ăn một ngày 3 bữa, mỗi bữa 50k, hãy ăn một ngày 4 bữa, mỗi bữa 30k. Như vậy vừa giúp tiết kiệm, vừa giúp giảm cân",
-    image:
-      "https://th.bing.com/th/id/OIP.rTaIj-BBeiXi3YexP1Z0JAHaEp?rs=1&pid=ImgDetMain",
-    likes: 1964,
-    comments: 135,
-  },
-  {
-    id: "2",
-    user: {
-      name: "Minh Nguyen Tuan",
-      avatar:
-        "https://scontent.fsgn16-1.fna.fbcdn.net/v/t39.30808-1/312524461_3366611090333071_465695464507083484_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3w5drj174qgQ7kNvgGyLsSZ&_nc_ht=scontent.fsgn16-1.fna&oh=00_AYD4p0LC2OmG7byoaDDDKRN-91aB09rb7BSq4ojgQfFSYw&oe=66625F59",
-    },
-    time: "08:39 am",
-    content:
-      "Thay vì ăn một ngày 3 bữa, một bữa 50k, hãy ăn một ngày 4 bữa, một bữa 30k. Như với vừa giúp tiết kiệm, vừa giúp giảm cân",
-    image:
-      "https://th.bing.com/th/id/OIP.rTaIj-BBeiXi3YexP1Z0JAHaEp?rs=1&pid=ImgDetMain",
-    likes: 1964,
-    comments: 135,
-  },
-  {
-    id: "3",
-    user: {
-      name: "Minh Nguyen Tuan",
-      avatar:
-        "https://scontent.fsgn16-1.fna.fbcdn.net/v/t39.30808-1/312524461_3366611090333071_465695464507083484_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3w5drj174qgQ7kNvgGyLsSZ&_nc_ht=scontent.fsgn16-1.fna&oh=00_AYD4p0LC2OmG7byoaDDDKRN-91aB09rb7BSq4ojgQfFSYw&oe=66625F59",
-    },
-    time: "08:39 am",
-    content:
-      "Thay vì ăn một ngày 3 bữa, một bữa 50k, hãy ăn một ngày 4 bữa, một bữa 30k. Như với vừa giúp tiết kiệm, vừa giúp giảm cân",
-    image:
-      "https://th.bing.com/th/id/OIP.rTaIj-BBeiXi3YexP1Z0JAHaEp?rs=1&pid=ImgDetMain",
-    likes: 1964,
-    comments: 135,
-  },
-  {
-    id: "4",
-    user: {
-      name: "Minh Nguyen Tuan",
-      avatar:
-        "https://scontent.fsgn16-1.fna.fbcdn.net/v/t39.30808-1/312524461_3366611090333071_465695464507083484_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3w5drj174qgQ7kNvgGyLsSZ&_nc_ht=scontent.fsgn16-1.fna&oh=00_AYD4p0LC2OmG7byoaDDDKRN-91aB09rb7BSq4ojgQfFSYw&oe=66625F59",
-    },
-    time: "08:39 am",
-    content:
-      "Thay vì ăn một ngày 3 bữa, một bữa 50k, hãy ăn một ngày 4 bữa, một bữa 30k. Như với vừa giúp tiết kiệm, vừa giúp giảm cân",
-    image:
-      "https://th.bing.com/th/id/OIP.rTaIj-BBeiXi3YexP1Z0JAHaEp?rs=1&pid=ImgDetMain",
-    likes: 1964,
-    comments: 135,
-  },
-];
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPosts } from "../../store/slices/postsSlice";
+import { fetchUsers } from "../../store/slices/usersSlice";
 
 const CommunityFeed = ({ navigation }) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth);
+  const posts = useSelector((state) => state.posts);
+
+  useEffect(() => {
+    dispatch(fetchPosts()); // Fetch posts when the component is mounted
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
+      key={item.id}
       onPress={() => navigation.navigate("PostDetail", { post: item })}
     >
-      <PostItem post={item} navigation={navigation} />
+      <PostItem post={item} navigation={navigation} key={item.id} />
     </TouchableOpacity>
   );
 

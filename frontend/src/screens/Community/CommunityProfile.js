@@ -4,80 +4,25 @@ import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import PostItem from "../../components/common/PostItem";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-
-const posts = [
-  {
-    id: "1",
-    user: {
-      name: "Minh Nguyen Tuan",
-      avatar: "https://your-avatar-url.com/avatar1.png",
-    },
-    time: "08:39 am",
-    content:
-      "Thay vì ăn một ngày 3 bữa, mỗi bữa 50k, hãy ăn một ngày 4 bữa, mỗi bữa 30k. Như vậy vừa giúp tiết kiệm, vừa giúp giảm cân",
-    image:
-      "https://th.bing.com/th/id/OIP.rTaIj-BBeiXi3YexP1Z0JAHaEp?rs=1&pid=ImgDetMain",
-    likes: 1964,
-    comments: 135,
-    type: "Post",
-  },
-  {
-    id: "2",
-    user: {
-      name: "Minh Nguyen Tuan",
-      avatar: "https://your-avatar-url.com/avatar2.png",
-    },
-    time: "08:39 am",
-    content:
-      "Thay vì ăn một ngày 3 bữa, một bữa 50k, hãy ăn một ngày 4 bữa, một bữa 30k. Như với vừa giúp tiết kiệm, vừa giúp giảm cân",
-    image:
-      "https://th.bing.com/th/id/OIP.rTaIj-BBeiXi3YexP1Z0JAHaEp?rs=1&pid=ImgDetMain",
-    likes: 1964,
-    comments: 135,
-    type: "Photo",
-  },
-  {
-    id: "3",
-    user: {
-      name: "Minh Nguyen Tuan",
-      avatar: "https://your-avatar-url.com/avatar3.png",
-    },
-    time: "08:39 am",
-    content:
-      "Thay vì ăn một ngày 3 bữa, một bữa 50k, hãy ăn một ngày 4 bữa, một bữa 30k. Như với vừa giúp tiết kiệm, vừa giúp giảm cân",
-    image:
-      "https://th.bing.com/th/id/OIP.rTaIj-BBeiXi3YexP1Z0JAHaEp?rs=1&pid=ImgDetMain",
-    likes: 1964,
-    comments: 135,
-    type: "Reel",
-  },
-  {
-    id: "4",
-    user: {
-      name: "Minh Nguyen Tuan",
-      avatar: "https://your-avatar-url.com/avatar4.png",
-    },
-    time: "08:39 am",
-    content:
-      "Thay vì ăn một ngày 3 bữa, một bữa 50k, hãy ăn một ngày 4 bữa, một bữa 30k. Như với vừa giúp tiết kiệm, vừa giúp giảm cân",
-    image:
-      "https://th.bing.com/th/id/OIP.rTaIj-BBeiXi3YexP1Z0JAHaEp?rs=1&pid=ImgDetMain",
-    likes: 1964,
-    comments: 135,
-    type: "Post",
-  },
-];
+import { useSelector } from "react-redux";
 
 const CommunityProfile = ({ route, navigation }) => {
-  const { user } = route.params;
+  const { author_id } = route.params;
   const [filterType, setFilterType] = useState("Post");
+
+  const posts = useSelector((state) => state.posts);
+  const users = useSelector((state) => state.users);
+  const user = users.find((user) => user.user_id === author_id);
 
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
-      if (filterType === "Tất cả") return true;
-      return post.type === filterType;
+      return post.author_id === author_id;
+      // if (post.author_id !== author_id) return false;
+
+      // if (filterType === "Tất cả") return true;
+      // return post.type === filterType;
     });
-  }, [filterType]);
+  }, [posts, author_id]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -101,10 +46,12 @@ const CommunityProfile = ({ route, navigation }) => {
         </View>
         <View style={tw`items-center p-4`}>
           <Image
-            source={{ uri: user.avatar }}
+            source={{ uri: user.avatar_url }}
             style={tw`w-20 h-20 rounded-full`}
           />
-          <Text style={tw`text-lg font-bold mt-2`}>{user.name}</Text>
+          <Text
+            style={tw`text-lg font-bold mt-2`}
+          >{`${user.first_name} ${user.last_name}`}</Text>
           <Text style={tw`text-gray-500`}>{user.email}</Text>
           <View style={tw`flex-row mt-4`}>
             <View style={tw`items-center mx-4`}>
@@ -161,7 +108,7 @@ const CommunityProfile = ({ route, navigation }) => {
         </View>
         <FlatList
           data={filteredPosts}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.post_id}
           renderItem={renderItem}
           contentContainerStyle={tw`p-4`}
         />
