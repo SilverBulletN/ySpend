@@ -133,7 +133,9 @@ CREATE TABLE Post (
     publish_date DATE,
     total_likes INTEGER,
     total_cmts INTEGER,
-    content TEXT
+    content TEXT,
+    image_url TEXT
+
 );
 
 COPY Post
