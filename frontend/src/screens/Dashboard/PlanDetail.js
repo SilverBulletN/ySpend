@@ -52,7 +52,7 @@ const PlanDetail = ({ route, navigation }) => {
   const pieDataWithPercentage = pieData.map((item) => ({
     ...item,
     population: Math.round((item.population / totalSpending) * 100),
-    name: `% ${item.name})`,
+    name: `% ${item.name}`,
   }));
 
   return (

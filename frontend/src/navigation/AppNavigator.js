@@ -13,6 +13,7 @@ import {
 } from "../screens/Onboarding";
 import DashboardNavigator from "./DashboardNavigator";
 import CommunityNavigator from "./CommunityNavigator";
+import ProfileNavigator from "./ProfileNavigator";
 
 const Stack = createStackNavigator();
 
@@ -36,6 +37,7 @@ const AppNavigator = () => {
         <Stack.Screen name="SetupProfile" component={SetupProfileScreen} />
         <Stack.Screen name="Dashboard" component={DashboardNavigator} />
         <Stack.Screen name="Community" component={CommunityNavigator} />
+        <Stack.Screen name="ProfileInfo" component={ProfileNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );

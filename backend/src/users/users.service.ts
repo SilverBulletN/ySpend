@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto'; // Ensure this import is correct
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
@@ -26,7 +27,7 @@ export class UsersService {
     return user;
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findByEmail(email: string): Promise<User> {
     const user = await this.usersRepository.findOne({
       where: { email },
     });
@@ -38,19 +39,31 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const user = new User();
-    user.first_name = createUserDto.first_name;
-    user.last_name = createUserDto.last_name;
     user.email = createUserDto.email;
     user.password_hash = await bcrypt.hash(createUserDto.password, 10);
-    user.birthday = createUserDto.birthday;
-    user.avatar_url = createUserDto.avatar_url;
-    user.setting_bits = createUserDto.setting_bits;
-
     return this.usersRepository.save(user);
   }
 
   async validatePassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
     return bcrypt.compare(plainPassword, hashedPassword);
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    Object.assign(user, updateUserDto);
+    return this.usersRepository.save(user);
+  }
+
+  async updateByEmail(email: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
+    Object.assign(user, updateUserDto);
+    return this.usersRepository.save(user);
   }
 
   async remove(id: number): Promise<void> {

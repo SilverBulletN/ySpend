@@ -1,28 +1,29 @@
+// src/users/user.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  user_id!: number;
+  user_id: number;
+
+  @Column({ nullable: true })
+  first_name: string;
+
+  @Column({ nullable: true })
+  last_name: string;
 
   @Column()
-  first_name!: string;
+  email: string;
 
   @Column()
-  last_name!: string;
+  password_hash: string;
 
-  @Column({ unique: true })
-  email!: string;
+  @Column({ type: 'date', nullable: true })
+  birthday: Date;
 
-  @Column()
-  password_hash!: string;
+  @Column({ nullable: true })
+  avatar_url: string;
 
-  @Column()
-  birthday!: Date;
-
-  @Column()
-  avatar_url!: string;
-
-  @Column()
-  setting_bits!: number;
+  @Column({ nullable: true })
+  setting_bits: number;
 }

@@ -7,8 +7,9 @@ const Footer = () => {
   const navigation = useNavigation();
   return (
     <View style={tw`flex-row justify-between items-center bg-white p-4 pb-7`}>
-      <TouchableOpacity style={tw`flex-1 items-center`}
-      onPress={() => navigation.navigate("HomePage")}
+      <TouchableOpacity
+        style={tw`flex-1 items-center`}
+        onPress={() => navigation.navigate("HomePage")}
       >
         <Image
           source={require("../../../assets/icons/home.png")}
@@ -31,15 +32,19 @@ const Footer = () => {
           />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={tw`flex-1 items-center`}
-      onPress={() => navigation.navigate("Community")}
+      <TouchableOpacity
+        style={tw`flex-1 items-center`}
+        onPress={() => navigation.navigate("Community")}
       >
         <Image
           source={require("../../../assets/icons/community.png")}
           style={tw`w-6 h-6`}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={tw`flex-1 items-center`}>
+      <TouchableOpacity
+        style={tw`flex-1 items-center`}
+        onPress={() => navigation.navigate("ProfileInfo")}
+      >
         <Image
           source={require("../../../assets/icons/user.png")}
           style={tw`w-6 h-6`}
