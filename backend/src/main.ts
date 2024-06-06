@@ -1,5 +1,3 @@
-// src/main.ts
-
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -8,6 +6,11 @@ import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: 'http://192.168.1.112:8081', // Expo local development
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
   const configService = app.get(ConfigService);
@@ -15,4 +18,5 @@ async function bootstrap() {
   console.log('JWT Secret:', configService.get<string>('JWT_SECRET'));
   await app.listen(configService.get<number>('PORT') || 3000);
 }
+
 bootstrap();

@@ -52,5 +52,6 @@ import { RecipesModule } from '../recipes/recipes.module';
     RecipesModule,
   ],
   providers: [SeedService],
+  exports: [SeedService],
 })
 export class SeedModule {}
