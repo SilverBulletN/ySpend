@@ -1,4 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+// src/store/slices/authSlice.js
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../../api/axiosInstance";
+
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/users", { email, password });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const initialState = {
   email: "",
@@ -6,6 +20,8 @@ const initialState = {
   firstName: "",
   lastName: "",
   profileImage: null,
+  loading: false,
+  error: null,
 };
 
 const authSlice = createSlice({
@@ -27,6 +43,21 @@ const authSlice = createSlice({
     setProfileImage: (state, action) => {
       state.profileImage = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(registerUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(registerUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.email = action.payload.email;
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 

@@ -10,6 +10,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setEmail, setAuthenticated } from "../../store/slices/authSlice";
 import tw from "twrnc";
+import { useRegisterUserMutation } from "../../store/slices/apiSlice";
 
 const SignUpScreen = ({ navigation }) => {
   const [email, setEmailLocal] = useState("");
@@ -18,6 +19,7 @@ const SignUpScreen = ({ navigation }) => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
   const dispatch = useDispatch();
 
   const validateEmail = (email) => {
@@ -29,7 +31,7 @@ const SignUpScreen = ({ navigation }) => {
     return password.length >= 6;
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (!validateEmail(email)) {
       setEmailError("Email không hợp lệ");
       return;
@@ -51,11 +53,16 @@ const SignUpScreen = ({ navigation }) => {
       setPasswordError("");
     }
 
-    // Perform sign-up logic here
-    // Alert.alert("Sign Up", "Đăng ký thành công!");
-    dispatch(setEmail(email));
-    dispatch(setAuthenticated(true));
-    navigation.navigate("EmailVerification");
+    try {
+      const response = await registerUser({ email, password }).unwrap();
+      if (response) {
+        dispatch(setEmail(email));
+        dispatch(setAuthenticated(true));
+        navigation.navigate("EmailVerification");
+      }
+    } catch (error) {
+      Alert.alert("Error", error.data.message || "Something went wrong!");
+    }
   };
 
   return (
@@ -110,6 +117,7 @@ const SignUpScreen = ({ navigation }) => {
       >
         <Text style={tw`text-center text-white text-lg`}>Đăng ký</Text>
       </TouchableOpacity>
+      {isLoading && <Text style={tw`text-center mt-4`}>Loading...</Text>}
       <View style={tw`flex-row justify-center items-center my-6`}>
         <View style={tw`h-px w-full bg-gray-300`} />
         <Text style={tw`mx-4 text-gray-500`}>or</Text>

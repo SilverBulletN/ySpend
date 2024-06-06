@@ -44,7 +44,10 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async validatePassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
+  async validatePassword(
+    plainPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
     return bcrypt.compare(plainPassword, hashedPassword);
   }
 
@@ -57,7 +60,10 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async updateByEmail(email: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async updateByEmail(
+    email: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<User> {
     const user = await this.findByEmail(email);
     if (!user) {
       throw new NotFoundException(`User with email ${email} not found`);
