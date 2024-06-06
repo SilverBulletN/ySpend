@@ -78,7 +78,7 @@ const PlanDetail = ({ route, navigation }) => {
           <Text style={styles.filterButtonText}>Tuần</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterButtonText}>Tuần 31</Text>
+          <Text style={styles.filterButtonText}>Tuần 49</Text>
         </TouchableOpacity>
       </View>
 
@@ -119,7 +119,7 @@ const PlanDetail = ({ route, navigation }) => {
                 </View>
               </View>
               <Text style={tw`font-bold`}>
-                {item.population}% / {totalBudget.toLocaleString("vi-VN")} đ
+                {item.population} / {totalBudget.toLocaleString("vi-VN")} đ
               </Text>
             </View>
           )}

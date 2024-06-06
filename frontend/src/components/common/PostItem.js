@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -8,6 +8,15 @@ const PostItem = ({ post, navigation }) => {
   const user = useSelector((state) =>
     state.users.find((u) => u.user_id === post.author_id)
   );
+
+  // State to manage likes and liked status
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.total_likes);
+
+  const handleLikePress = () => {
+    setLiked(!liked);
+    setLikeCount((prevCount) => (liked ? prevCount - 1 : prevCount + 1));
+  };
 
   return (
     <View style={tw`bg-white p-4 mb-4 rounded-lg`}>
@@ -45,10 +54,17 @@ const PostItem = ({ post, navigation }) => {
         />
       )}
       <View style={tw`flex-row justify-between`}>
-        <View style={tw`flex-row items-center`}>
-          <Ionicons name="heart-outline" size={20} color="gray" />
-          <Text style={tw`ml-1`}>{post.total_likes}</Text>
-        </View>
+        <TouchableOpacity
+          style={tw`flex-row items-center`}
+          onPress={handleLikePress}
+        >
+          <Ionicons
+            name={liked ? "heart" : "heart-outline"}
+            size={20}
+            color={liked ? "red" : "gray"}
+          />
+          <Text style={tw`ml-1`}>{likeCount}</Text>
+        </TouchableOpacity>
         <View style={tw`flex-row items-center`}>
           <Ionicons name="chatbubble-outline" size={20} color="gray" />
           <Text style={tw`ml-1`}>{post.total_cmts}</Text>
