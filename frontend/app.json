@@ -14,18 +14,27 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nguyen.hoang3.frontend"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.nguyen.hoang3.frontend"
     },
     "web": {
       "favicon": "./assets/icons/logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f9703b00-ac15-48bc-927b-5b4c68a39e93"
+      }
     }
   }
 }
