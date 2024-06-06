@@ -16,7 +16,10 @@ const Footer = () => {
           style={tw`w-6 h-6`}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={tw`flex-1 items-center`}>
+      <TouchableOpacity
+        style={tw`flex-1 items-center`}
+        onPress={() => navigation.navigate("StatisticHome")}
+      >
         <Image
           source={require("../../../assets/icons/stats.png")}
           style={tw`w-6 h-6`}
@@ -25,6 +28,7 @@ const Footer = () => {
       <View style={tw`flex-1 items-center`}>
         <TouchableOpacity
           style={tw`bg-teal-500 p-4 rounded-full absolute -top-12 shadow-lg`}
+          onPress={() => navigation.navigate("AddExpense")}
         >
           <Image
             source={require("../../../assets/icons/add.png")}

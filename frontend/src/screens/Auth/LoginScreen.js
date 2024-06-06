@@ -8,29 +8,41 @@ import {
   Alert,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { setEmail, setAuthenticated } from "../../store/slices/authSlice";
+import {
+  setEmail,
+  setAuthenticated,
+  setFirstName,
+  setLastName,
+  setProfileImage,
+} from "../../store/slices/authSlice";
+import { useLoginUserMutation } from "../../store/slices/apiSlice";
 import tw from "twrnc";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmailLocal] = useState("");
   const [password, setPassword] = useState("");
-
   const dispatch = useDispatch();
+  const [loginUser] = useLoginUserMutation();
 
-  const handleLogin = () => {
-    // Basic validation
+  const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Vui lòng nhập Email và Mật khẩu");
       return;
     }
 
-    // Simulate login
-    if (email === "admin" && password === "123456") {
-      dispatch(setEmail(email));
-      dispatch(setAuthenticated(true));
-      navigation.navigate("Dashboard");
-    } else {
+    try {
+      const response = await loginUser({ email, password }).unwrap();
+      if (response) {
+        dispatch(setEmail(response.user.email));
+        dispatch(setAuthenticated(true));
+        dispatch(setFirstName(response.user.first_name));
+        dispatch(setLastName(response.user.last_name));
+        dispatch(setProfileImage(response.user.avatar_url));
+        navigation.navigate("Dashboard");
+      }
+    } catch (error) {
       Alert.alert("Error", "Email hoặc Mật khẩu không đúng");
+      console.error("Login error:", error);
     }
   };
 

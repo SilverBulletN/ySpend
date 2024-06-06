@@ -6,13 +6,13 @@ import * as Font from "expo-font";
 import AppNavigator from "./src/navigation/AppNavigator";
 import store from "./src/store";
 import { Provider, useDispatch } from "react-redux";
-import { fetchTransactions } from "./src/store/slices/transactionsSlice";
+// import { fetchTransactions } from "./src/store/slices/transactionsSlice";
 
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
   const [appIsReady, setAppIsReady] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   useEffect(() => {
     async function prepare() {
       try {
@@ -22,7 +22,7 @@ const App = () => {
           // Load font, add later
         });
         // await new Promise((resolve) => setTimeout(resolve, 1000));
-        await dispatch(fetchTransactions());
+        // await dispatch(fetchTransactions());
       } catch (e) {
         console.warn(e);
       } finally {

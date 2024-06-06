@@ -34,7 +34,7 @@ const EmailVerificationScreen = ({ navigation }) => {
       <View style={tw`items-center mb-6`}>
         <Text style={tw`text-2xl font-bold text-gray-900`}>Xác thực email</Text>
         <Text style={tw`text-gray-600 mt-2`}>
-          Vui lòng nhập mã xác thực email
+          Vui lòng nhập mã xác thực email (mặc định là 123456)
         </Text>
       </View>
       <View style={tw`mb-4`}>

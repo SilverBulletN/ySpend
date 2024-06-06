@@ -14,14 +14,16 @@ import {
 import DashboardNavigator from "./DashboardNavigator";
 import CommunityNavigator from "./CommunityNavigator";
 import ProfileNavigator from "./ProfileNavigator";
-import TestApiScreen from "../screens/TestApiScreen";
+import AddExpenseScreen from "../screens/AddExpenseScreen";
+import StatisticHome from "../screens/Statistic/StatisticHome";
+
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SignUp"
+        initialRouteName="Onboarding1"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
@@ -38,7 +40,8 @@ const AppNavigator = () => {
         <Stack.Screen name="Dashboard" component={DashboardNavigator} />
         <Stack.Screen name="Community" component={CommunityNavigator} />
         <Stack.Screen name="ProfileInfo" component={ProfileNavigator} />
-        <Stack.Screen name="TestApi" component={TestApiScreen} />
+        <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+        <Stack.Screen name="StatisticHome" component={StatisticHome} />
       </Stack.Navigator>
     </NavigationContainer>
   );

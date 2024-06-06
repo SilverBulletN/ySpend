@@ -57,7 +57,7 @@ const Plan = ({ navigation }) => {
         </View>
       </View>
 
-      <View style={tw`flex-row justify-around bg-gray-50 p-4`}>
+      <View style={tw`flex-row justify-around bg-gray-50 p-4 bg-white`}>
         <TouchableOpacity
           onPress={() => setFilterType("Tuần")}
           style={tw`flex-1 items-center ${

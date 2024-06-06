@@ -1,35 +1,38 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from '../users/user.entity';
 import { Category } from '../categories/category.entity';
 
 @Entity()
 export class Recipe {
   @PrimaryGeneratedColumn()
-  recipe_id!: number;
+  recipe_id: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, user => user.recipes)
   @JoinColumn({ name: 'owner_id' })
-  owner!: User;
-
-  @Column('text')
-  avatar_url!: string;
+  owner: User;
 
   @Column()
-  recipe_name!: string;
+  recipe_name: string;
 
   @Column()
-  status!: string;
+  status: string;
 
   @Column()
-  to_vendor!: string;
+  to_vendor: string;
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })
-  category!: Category;
+  category: Category;
 
-  @Column('text')
-  image_url!: string;
+  @Column({ nullable: true })
+  image_url: string;
 
   @Column()
-  amount!: number;
+  amount: number;
 }

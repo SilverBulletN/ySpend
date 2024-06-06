@@ -1,18 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import TransactionItem from "../../components/common/TransactionItem";
 import ProgressItem from "../../components/common/ProgressItem";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { fetchTransactions } from "../../store/slices/transactionsSlice";
 
 const HomePage = ({ navigation }) => {
+  const dispatch = useDispatch();
   const firstName = useSelector((state) => state.auth.firstName);
   const lastName = useSelector((state) => state.auth.lastName);
   const transactions = useSelector((state) => state.transactions);
   const recentTransactions = transactions.slice(-3).reverse();
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
+
+  useEffect(() => {
+    dispatch(fetchTransactions());
+  }, [dispatch]);
+
+  // Calculate the total balance, income, and expenditure
+  const totalIncome = transactions
+    .filter((transaction) => transaction.amount > 0)
+    .reduce((sum, transaction) => sum + transaction.amount, 0);
+
+  const totalExpenditure = transactions
+    .filter((transaction) => transaction.amount < 0)
+    .reduce((sum, transaction) => sum + Math.abs(transaction.amount), 0);
+
+  const totalBalance = totalIncome - totalExpenditure;
 
   return (
     <DefaultLayout>
@@ -41,7 +58,9 @@ const HomePage = ({ navigation }) => {
         </View>
         <View style={tw`flex-row items-center mt-2`}>
           <Text style={tw`text-white text-3xl font-bold`}>
-            {isBalanceVisible ? "3,000,000 đ" : "**********"}
+            {isBalanceVisible
+              ? `${totalBalance.toLocaleString()} đ`
+              : "**********"}
           </Text>
           <TouchableOpacity
             style={tw`ml-2`}
@@ -61,7 +80,9 @@ const HomePage = ({ navigation }) => {
               <Text style={tw`text-white ml-1`}>Thu nhập</Text>
             </View>
             <Text style={tw`text-white text-lg`}>
-              {isBalanceVisible ? "10,000,000 đ" : "**********"}
+              {isBalanceVisible
+                ? `${totalIncome.toLocaleString()} đ`
+                : "**********"}
             </Text>
           </View>
           <View style={tw`flex-1`}>
@@ -70,7 +91,9 @@ const HomePage = ({ navigation }) => {
               <Text style={tw`text-white ml-1`}>Chi tiêu</Text>
             </View>
             <Text style={tw`text-white text-lg`}>
-              {isBalanceVisible ? "7,000,000 đ" : "**********"}
+              {isBalanceVisible
+                ? `${totalExpenditure.toLocaleString()} đ`
+                : "**********"}
             </Text>
           </View>
         </View>
@@ -100,7 +123,7 @@ const HomePage = ({ navigation }) => {
                 logo={transaction.logo}
                 title={transaction.title}
                 date={transaction.date}
-                amount={transaction.amount}
+                amount={transaction.amountString}
                 amountStyle={transaction.amountStyle}
               />
             </TouchableOpacity>

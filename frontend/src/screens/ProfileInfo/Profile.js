@@ -23,7 +23,7 @@ const Profile = ({ navigation }) => {
             <Ionicons name="arrow-back" size={24} color="white" />
           </TouchableOpacity>
           <Text style={tw`text-lg font-bold text-white`}>Tài khoản</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
             <Ionicons name="notifications-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>
@@ -65,21 +65,21 @@ const Profile = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={tw`flex-row items-center p-4 border-b border-gray-200`}
-            // onPress={() => navigation.navigate("AccountLinking")}
+            onPress={() => navigation.navigate("AccountLinking")}
           >
             <Ionicons name="link-outline" size={24} color="gray" />
             <Text style={tw`ml-4`}>Liên kết tài khoản</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={tw`flex-row items-center p-4 border-b border-gray-200`}
-            // onPress={() => navigation.navigate("Policy")}
+            onPress={() => navigation.navigate("Policy")}
           >
             <Ionicons name="document-text-outline" size={24} color="gray" />
             <Text style={tw`ml-4`}>Chính sách và điều khoản</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={tw`flex-row items-center p-4 border-b border-gray-200`}
-            // onPress={() => navigation.navigate("AboutUs")}
+            onPress={() => navigation.navigate("AboutUs")}
           >
             <Ionicons
               name="information-circle-outline"

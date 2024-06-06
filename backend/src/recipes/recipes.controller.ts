@@ -1,28 +1,17 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
-import { Recipe } from './recipe.entity';
+import { CreateRecipeDto } from './dto/create-recipe.dto';
 
 @Controller('recipes')
 export class RecipesController {
   constructor(private readonly recipesService: RecipesService) {}
 
-  @Get()
-  findAll(): Promise<Recipe[]> {
-    return this.recipesService.findAll();
+  @Get('by-email')
+  async getRecipesByEmail(@Query('email') email: string) {
+    return this.recipesService.findByEmail(email);
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: number): Promise<Recipe> {
-    return this.recipesService.findOne(id);
-  }
-
   @Post()
-  create(@Body() recipe: Recipe): Promise<Recipe> {
-    return this.recipesService.create(recipe);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: number): Promise<void> {
-    return this.recipesService.remove(id);
+  async createRecipe(@Body() createRecipeDto: CreateRecipeDto, @Query('email') email: string) {
+    return this.recipesService.create(createRecipeDto, email);
   }
 }

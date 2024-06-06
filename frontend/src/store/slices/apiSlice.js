@@ -12,7 +12,25 @@ export const apiSlice = createApi({
         body: userData,
       }),
     }),
+    updateUserProfile: builder.mutation({
+      query: ({ email, profileData }) => ({
+        url: `/users/email/${email}`,
+        method: "PUT",
+        body: profileData,
+      }),
+    }),
+    loginUser: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/login",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
   }),
 });
 
-export const { useRegisterUserMutation } = apiSlice;
+export const {
+  useRegisterUserMutation,
+  useUpdateUserProfileMutation,
+  useLoginUserMutation,
+} = apiSlice;
