@@ -1,5 +1,10 @@
-// src/users/user.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+} from 'typeorm';
+import { Recipe } from '../recipes/recipe.entity';
 
 @Entity()
 export class User {
@@ -26,4 +31,7 @@ export class User {
 
   @Column({ nullable: true })
   setting_bits: number;
+
+  @OneToMany(() => Recipe, recipe => recipe.owner)
+  recipes: Recipe[];
 }

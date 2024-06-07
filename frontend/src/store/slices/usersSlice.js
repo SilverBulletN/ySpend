@@ -13,10 +13,10 @@ const fetchInitialUsersData = async () => {
     },
     {
       user_id: "2",
-      first_name: "Nguyen",
-      last_name: "Van A",
+      first_name: "Hiếu",
+      last_name: "Nguyễn",
       email: "nguyen.vana@gmail.com",
-      avatar_url: "https://your-avatar-url.com/avatar2.png",
+      avatar_url: "https://nguoinoitieng.tv/images/nnt/103/0/bhbg.jpg",
     },
     // Add more users as needed
   ];

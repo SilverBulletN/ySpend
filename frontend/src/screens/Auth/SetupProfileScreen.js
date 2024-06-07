@@ -9,12 +9,13 @@ import {
   Platform,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setFirstName,
   setLastName,
   setProfileImage,
 } from "../../store/slices/authSlice";
+import { useUpdateUserProfileMutation } from "../../store/slices/apiSlice";
 import tw from "twrnc";
 
 const SetupProfileScreen = ({ navigation }) => {
@@ -22,7 +23,9 @@ const SetupProfileScreen = ({ navigation }) => {
   const [firstName, setFirstNameLocal] = useState("");
   const [image, setImage] = useState(null);
 
+  const [updateUserProfile] = useUpdateUserProfileMutation();
   const dispatch = useDispatch();
+  const email = useSelector((state) => state.auth.email); // Get email from auth state
 
   useEffect(() => {
     (async () => {
@@ -30,9 +33,7 @@ const SetupProfileScreen = ({ navigation }) => {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
-          Alert.alert(
-            "Cần quyền truy cập bộ nhớ để chọn ảnh",
-          );
+          Alert.alert("Cần quyền truy cập bộ nhớ để chọn ảnh");
         }
       }
     })();
@@ -54,23 +55,33 @@ const SetupProfileScreen = ({ navigation }) => {
     }
   };
 
-  const handleProfileSetup = () => {
+  const handleProfileSetup = async () => {
     if (!firstName || !lastName) {
       Alert.alert("Error", "Vui lòng nhập Họ và Tên của bạn");
       return;
     }
 
-    // Dispatch actions to update the store
-    dispatch(setFirstName(firstName));
-    dispatch(setLastName(lastName));
-    dispatch(
-      setProfileImage(
-        image ? image : require("../../../assets/icons/defaultavatar.png")
-      )
-    ); // Set the selected or default image
+    const profileData = {
+      first_name: firstName,
+      last_name: lastName,
+      birthday: "1990-01-01", // This should be updated with actual data
+      avatar_url: image || "http://example.com/defaultavatar.png",
+      setting_bits: 15, // This should be updated with actual data
+    };
 
-    // Navigate to login screen
-    navigation.navigate("Login");
+    try {
+      const response = await updateUserProfile({ email, profileData }).unwrap();
+      if (response) {
+        dispatch(setFirstName(response.first_name));
+        dispatch(setLastName(response.last_name));
+        dispatch(setProfileImage(response.avatar_url));
+        Alert.alert("Success", "Profile updated successfully!");
+        navigation.navigate("Login");
+      }
+    } catch (error) {
+      Alert.alert("Error", "Failed to update profile");
+      console.error("Profile update error:", error);
+    }
   };
 
   return (

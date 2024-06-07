@@ -1,9 +1,9 @@
 // src/store/slices/apiSlice.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import { BASE_URL } from "@env";
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://192.168.1.112:3000" }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (userData) => ({
@@ -12,7 +12,25 @@ export const apiSlice = createApi({
         body: userData,
       }),
     }),
+    updateUserProfile: builder.mutation({
+      query: ({ email, profileData }) => ({
+        url: `/users/email/${email}`,
+        method: "PUT",
+        body: profileData,
+      }),
+    }),
+    loginUser: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/login",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
   }),
 });
 
-export const { useRegisterUserMutation } = apiSlice;
+export const {
+  useRegisterUserMutation,
+  useUpdateUserProfileMutation,
+  useLoginUserMutation,
+} = apiSlice;

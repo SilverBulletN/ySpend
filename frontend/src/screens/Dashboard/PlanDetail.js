@@ -7,14 +7,12 @@ import {
   StyleSheet,
 } from "react-native";
 import tw from "twrnc";
-import { useSelector } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { PieChart } from "react-native-chart-kit";
 
 const PlanDetail = ({ route, navigation }) => {
   const { plan } = route.params;
-  const categories = useSelector((state) => state.categories); 
-  const totalBudget = 12500000;
+  const totalBudget = plan.limit_amount;
 
   const pieData = [
     {
@@ -47,7 +45,10 @@ const PlanDetail = ({ route, navigation }) => {
     },
   ];
 
-  const totalSpending = pieData.reduce((total, item) => total + item.population, 0);
+  const totalSpending = pieData.reduce(
+    (total, item) => total + item.population,
+    0
+  );
 
   const pieDataWithPercentage = pieData.map((item) => ({
     ...item,
@@ -77,7 +78,7 @@ const PlanDetail = ({ route, navigation }) => {
           <Text style={styles.filterButtonText}>Tuần</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterButtonText}>Tuần 31</Text>
+          <Text style={styles.filterButtonText}>Tuần 49</Text>
         </TouchableOpacity>
       </View>
 
@@ -118,7 +119,7 @@ const PlanDetail = ({ route, navigation }) => {
                 </View>
               </View>
               <Text style={tw`font-bold`}>
-                {item.population.toFixed(2)}% / {totalBudget.toLocaleString("vi-VN")}đ
+                {item.population} / {totalBudget.toLocaleString("vi-VN")} đ
               </Text>
             </View>
           )}

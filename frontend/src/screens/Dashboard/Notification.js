@@ -10,18 +10,31 @@ const notifications = [
   {
     id: "1",
     title: "Thanh toán thành công",
-    description: "Hóa đơn tiền điện tháng 4/2024 đã được thanh toán",
+    description: "Tiền điện tháng 4/2024 đã được thanh toán",
     time: "1 giờ trước",
     logo: require("../../../assets/icons/electric.png"),
   },
   {
     id: "2",
-    title: "Hóa đơn sắp tới",
-    description: "Sắp đến lúc thanh toán hóa đơn tiền nước tháng 5/2024",
-    time: "1 giờ trước",
+    title: "Chương trình khuyến mại",
+    description: "Giảm giá 10% khi thanh toán qua Momo",
+    time: "2 giờ trước",
     logo: require("../../../assets/icons/momo.png"),
   },
-  // Add more notifications as needed
+  {
+    id: "3",
+    title: "Nhắc nhở thanh toán hoá đơn",
+    description: "Thanh toán hoá đơn với ZaloPay",
+    time: "5 giờ trước",
+    logo: require("../../../assets/icons/zalopay.png"),
+  },
+  {
+    id: "4",
+    title: "Đăng ký Netflix Premium",
+    description: "Đăng ký Netflix Premium tháng 5/2024",
+    time: "1 ngày trước",
+    logo: require("../../../assets/icons/netflix.png"),
+  },
 ];
 
 const Notification = ({ navigation }) => {
